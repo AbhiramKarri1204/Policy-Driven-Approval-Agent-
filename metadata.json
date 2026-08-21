@@ -1,0 +1,6 @@
+{
+  "name": "Policy-Driven Approval Agent",
+  "description": "Configurable plain-English policy parser and deterministic expense claim decision engine with traceable audit rationales and conflict handling.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

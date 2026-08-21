@@ -1,0 +1,32 @@
+# ==============================================================================
+# POLICY-DRIVEN APPROVAL AGENT - RULES CONFIGURATION (rules.txt)
+# ==============================================================================
+# Format: One plain-English business rule per line.
+# Lines starting with '#' are treated as comments.
+# These rules are compiled ONCE at load-time by the LLM into structured AST objects.
+# The decision engine applies them deterministically in microseconds per claim.
+# ==============================================================================
+
+# Global micro-expense auto-approval
+Auto-approve any expense under $50 for all departments if a receipt is attached
+
+# Departmental threshold with receipt enforcement
+Auto-approve expenses under or equal to $500 for Sales department when a receipt is attached
+
+# Category-specific strict receipt requirement
+Reject travel or flight expenses without a receipt attached
+
+# High-value executive review threshold
+Escalate any expense exceeding $2,000 for executive review
+
+# Subscription & Software auto-approval
+Auto-approve Software & SaaS expenses under $1,500 across all departments
+
+# Marketing department budget cap
+Escalate Marketing department expenses greater than $1,000 for budget director review
+
+# Entertainment policy restriction
+Reject entertainment or nightlife expenses exceeding $300
+
+# General missing receipt safeguard
+Escalate any expense over $250 if no receipt is attached
