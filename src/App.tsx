@@ -3,10 +3,8 @@ import {
   ActiveTab,
   Header
 } from './components/Header';
-import {
-  DeviceScreenToolbar
-} from './components/DeviceScreenToolbar';
 import { MetricCards } from './components/MetricCards';
+import { ClaimsDistributionChart } from './components/ClaimsDistributionChart';
 import { ClaimsTable } from './components/ClaimsTable';
 import { AuditTraceModal } from './components/AuditTraceModal';
 import { RulesConfigHub } from './components/RulesConfigHub';
@@ -14,7 +12,6 @@ import { ClaimSimulator } from './components/ClaimSimulator';
 import { DEFAULT_STRUCTURED_RULES, SAMPLE_CLAIMS } from './data/sampleData';
 import { evaluateBatch } from './engine/decisionEngine';
 import {
-  DeviceScreenSize,
   EvaluationResult,
   ExpenseClaim,
   StructuredRule
@@ -31,21 +28,6 @@ export default function App() {
   const [isCompiling, setIsCompiling] = useState<boolean>(false);
   const [hasGeminiKey, setHasGeminiKey] = useState<boolean>(true);
   const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'info' | 'error' } | null>(null);
-
-  // Responsive device viewport emulator state
-  const [deviceSize, setDeviceSize] = useState<DeviceScreenSize>('responsive');
-  const [isLandscape, setIsLandscape] = useState<boolean>(false);
-  const [deviceScale, setDeviceScale] = useState<number>(1);
-  const [windowWidth, setWindowWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 1200);
-
-  // Track window resize
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   // Show temporary toast notification
   const showToast = (text: string, type: 'success' | 'info' | 'error' = 'success') => {
@@ -171,32 +153,6 @@ export default function App() {
     showToast('Reset policy rules and sample claims to initial benchmark dataset', 'info');
   };
 
-  // Calculate simulated device viewport dimensions
-  const getDeviceDimensions = () => {
-    switch (deviceSize) {
-      case 'mobile-sm':
-        return isLandscape
-          ? { width: '667px', maxWidth: '667px', minHeight: '375px' }
-          : { width: '375px', maxWidth: '375px', minHeight: '667px' };
-      case 'mobile-lg':
-        return isLandscape
-          ? { width: '844px', maxWidth: '844px', minHeight: '390px' }
-          : { width: '390px', maxWidth: '390px', minHeight: '844px' };
-      case 'tablet':
-        return isLandscape
-          ? { width: '1024px', maxWidth: '1024px', minHeight: '768px' }
-          : { width: '768px', maxWidth: '768px', minHeight: '1024px' };
-      case 'desktop':
-        return { width: '1280px', maxWidth: '1280px', minHeight: '800px' };
-      case 'responsive':
-      default:
-        return { width: '100%', maxWidth: '100%' };
-    }
-  };
-
-  const isEmulatingDevice = deviceSize !== 'responsive';
-  const deviceStyles = getDeviceDimensions();
-
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-emerald-500/30 selection:text-emerald-200">
       {/* Toast Notification */}
@@ -217,82 +173,59 @@ export default function App() {
         </div>
       )}
 
-      {/* Screen Size & Device Switcher Toolbar */}
-      <DeviceScreenToolbar
-        deviceSize={deviceSize}
-        onChangeDeviceSize={(size) => {
-          setDeviceSize(size);
-          showToast(`Switched screen size to ${size.toUpperCase()}`, 'info');
-        }}
-        isLandscape={isLandscape}
-        onToggleOrientation={() => setIsLandscape(!isLandscape)}
-        scale={deviceScale}
-        onChangeScale={setDeviceScale}
-        actualWindowWidth={windowWidth}
+      {/* Main App Navigation Header */}
+      <Header
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        onReRunBatch={handleReRunBatch}
+        isEvaluating={isEvaluating}
+        hasGeminiKey={hasGeminiKey}
+        totalRules={rules.filter((r) => r.enabled !== false).length}
       />
 
-      {/* Device Emulation Outer Workspace or Fluid Container */}
-      <div className={`flex-1 flex flex-col ${isEmulatingDevice ? 'items-center py-6 px-2 sm:px-4 bg-slate-950/90 overflow-x-auto' : ''}`}>
-        <div
-          style={{
-            ...deviceStyles,
-            transform: isEmulatingDevice ? `scale(${deviceScale})` : undefined,
-            transformOrigin: 'top center'
-          }}
-          className={`w-full transition-all duration-200 flex flex-col flex-1 ${
-            isEmulatingDevice
-              ? 'bg-slate-900 border-4 border-slate-700/80 rounded-3xl shadow-2xl overflow-hidden ring-8 ring-slate-950 my-auto'
-              : ''
-          }`}
-        >
-          {/* Main App Navigation Header */}
-          <Header
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            onReRunBatch={handleReRunBatch}
-            isEvaluating={isEvaluating}
-            hasGeminiKey={hasGeminiKey}
-            totalRules={rules.filter((r) => r.enabled !== false).length}
+      {/* Main Content Area - Fully responsive to whatever device the user is on */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-6">
+        {activeTab === 'batch' && (
+          <div className="space-y-5 sm:space-y-6">
+            {/* Metric Summary Telemetry */}
+            <MetricCards
+              stats={batchEvaluation.stats}
+              selectedFilter={selectedFilter}
+              onFilterSelect={setSelectedFilter}
+            />
+
+            {/* Recharts Donut Distribution Chart */}
+            <ClaimsDistributionChart
+              stats={batchEvaluation.stats}
+              selectedFilter={selectedFilter}
+              onFilterSelect={setSelectedFilter}
+            />
+
+            {/* Claims Table / Mobile Cards */}
+            <ClaimsTable
+              results={batchEvaluation.results}
+              onSelectClaim={(res) => setSelectedClaimForAudit(res)}
+              selectedFilter={selectedFilter}
+              onFilterChange={setSelectedFilter}
+            />
+          </div>
+        )}
+
+        {activeTab === 'rules' && (
+          <RulesConfigHub
+            rules={rules}
+            onUpdateRules={handleUpdateRules}
+            onParseNewRule={handleParseNewRule}
+            onBatchRecompile={handleBatchRecompile}
+            onResetDefaults={handleResetDefaults}
+            isCompiling={isCompiling}
           />
+        )}
 
-          {/* Main Content Area */}
-          <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-6">
-            {activeTab === 'batch' && (
-              <div className="space-y-5 sm:space-y-6">
-                {/* Metric Summary Telemetry */}
-                <MetricCards
-                  stats={batchEvaluation.stats}
-                  selectedFilter={selectedFilter}
-                  onFilterSelect={setSelectedFilter}
-                />
-
-                {/* Claims Table / Mobile Cards */}
-                <ClaimsTable
-                  results={batchEvaluation.results}
-                  onSelectClaim={(res) => setSelectedClaimForAudit(res)}
-                  selectedFilter={selectedFilter}
-                  onFilterChange={setSelectedFilter}
-                />
-              </div>
-            )}
-
-            {activeTab === 'rules' && (
-              <RulesConfigHub
-                rules={rules}
-                onUpdateRules={handleUpdateRules}
-                onParseNewRule={handleParseNewRule}
-                onBatchRecompile={handleBatchRecompile}
-                onResetDefaults={handleResetDefaults}
-                isCompiling={isCompiling}
-              />
-            )}
-
-            {activeTab === 'simulator' && (
-              <ClaimSimulator rules={rules} />
-            )}
-          </main>
-        </div>
-      </div>
+        {activeTab === 'simulator' && (
+          <ClaimSimulator rules={rules} />
+        )}
+      </main>
 
       {/* Audit Trace Detail Modal */}
       <AuditTraceModal
@@ -302,3 +235,4 @@ export default function App() {
     </div>
   );
 }
+

@@ -144,14 +144,3 @@ export interface BatchEvaluationSummary {
   rulesEvaluatedCount: number;
 }
 
-export type DeviceScreenSize = 'responsive' | 'mobile-sm' | 'mobile-lg' | 'tablet' | 'desktop';
-
-export interface DevicePresetOption {
-  id: DeviceScreenSize;
-  label: string;
-  sublabel: string;
-  width: number | '100%';
-  height?: number | string;
-  badge: string;
-}
-
