@@ -254,14 +254,14 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
   return (
     <div className="space-y-2.5">
       <div className="flex items-center justify-between">
-        <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-          <Receipt className="h-3.5 w-3.5 text-emerald-400" />
+        <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+          <Receipt className="h-3.5 w-3.5 text-indigo-600" />
           <span>Upload Receipt from Device</span>
         </label>
-        <span className="text-[11px] text-slate-400 font-normal">
+        <span className="text-xs text-slate-500 font-normal">
           {isReceiptAttached ? (
-            <span className="text-emerald-400 font-semibold flex items-center gap-1">
-              <CheckCircle2 className="h-3 w-3" /> Valid Receipt Attached
+            <span className="text-emerald-700 font-semibold flex items-center gap-1">
+              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" /> Valid Receipt Attached
             </span>
           ) : (
             'Required for claims > $75'
@@ -281,8 +281,8 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
 
       {/* Scanning status banner */}
       {isScanning && (
-        <div className="bg-emerald-950/70 border border-emerald-700/80 rounded-lg p-3 flex items-center gap-2.5 text-xs text-emerald-200 animate-pulse">
-          <Loader2 className="h-4 w-4 animate-spin text-emerald-400 shrink-0" />
+        <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 flex items-center gap-2.5 text-xs text-indigo-900 animate-pulse">
+          <Loader2 className="h-4 w-4 animate-spin text-indigo-600 shrink-0" />
           <div className="flex-1">
             <span className="font-semibold">AI Receipt Parser Active:</span> Extracting merchant, amount, category & date...
           </div>
@@ -291,18 +291,18 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
 
       {/* Scan toast notification */}
       {scanMessage && !isScanning && (
-        <div className="bg-slate-900 border border-emerald-600/70 rounded-lg p-2.5 flex items-center gap-2 text-xs text-emerald-300">
-          <Sparkles className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+        <div className="bg-slate-50 border border-slate-200 rounded-lg p-2.5 flex items-center gap-2 text-xs text-slate-800">
+          <Sparkles className="h-3.5 w-3.5 text-indigo-600 shrink-0" />
           <span className="truncate">{scanMessage}</span>
         </div>
       )}
 
       {/* Active Uploaded File Card */}
       {isReceiptAttached && fileName ? (
-        <div className="bg-slate-950 border border-emerald-700/80 rounded-xl p-3.5 shadow-sm space-y-2.5">
+        <div className="bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs space-y-2.5">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="h-9 w-9 rounded-lg bg-emerald-950/90 border border-emerald-700/80 flex items-center justify-center text-emerald-400 shrink-0">
+              <div className="h-9 w-9 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0">
                 {claim.receiptPreviewUrl ? (
                   <FileImage className="h-4 w-4" />
                 ) : (
@@ -310,16 +310,16 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
                 )}
               </div>
               <div className="min-w-0">
-                <div className="text-xs font-bold text-slate-100 truncate flex items-center gap-1.5">
+                <div className="text-xs font-bold text-slate-900 truncate flex items-center gap-1.5">
                   <span>{fileName}</span>
-                  <span className="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-emerald-900/60 text-emerald-300 border border-emerald-700/70 shrink-0">
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
                     VERIFIED
                   </span>
                 </div>
-                <div className="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
+                <div className="text-xs text-slate-500 flex items-center gap-2 mt-0.5">
                   <span>{formatFileSize(claim.receiptFileSize)}</span>
                   <span>•</span>
-                  <span className="text-emerald-400 font-medium">Auto-Attached to Claim</span>
+                  <span className="text-emerald-700 font-medium">Auto-Attached to Claim</span>
                 </div>
               </div>
             </div>
@@ -330,7 +330,7 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowPreviewModal(true)}
-                  className="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded transition-colors cursor-pointer"
+                  className="p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded transition-colors cursor-pointer"
                   title="Preview Receipt Image"
                 >
                   <Eye className="h-4 w-4" />
@@ -339,14 +339,14 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="px-2 py-1 text-[11px] font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 rounded border border-slate-700 transition-colors cursor-pointer"
+                className="px-2.5 py-1 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md border border-slate-200 transition-colors cursor-pointer"
               >
                 Replace
               </button>
               <button
                 type="button"
                 onClick={onReceiptRemoved}
-                className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 rounded transition-colors cursor-pointer"
+                className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors cursor-pointer"
                 title="Remove Receipt"
               >
                 <X className="h-4 w-4" />
@@ -355,9 +355,9 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
           </div>
 
           {/* Micro confirmation details */}
-          <div className="bg-slate-900/80 rounded-lg p-2 text-[11px] text-slate-300 border border-slate-800 flex items-center justify-between gap-2">
-            <span className="text-slate-400">Attached to claim:</span>
-            <span className="font-mono text-emerald-400 font-semibold">{claim.merchant} (${claim.amount.toFixed(2)})</span>
+          <div className="bg-slate-50 rounded-lg p-2 text-xs text-slate-700 border border-slate-200 flex items-center justify-between gap-2">
+            <span className="text-slate-500">Attached to claim:</span>
+            <span className="font-mono text-emerald-800 font-semibold">{claim.merchant} (${claim.amount.toFixed(2)})</span>
           </div>
         </div>
       ) : (
@@ -370,26 +370,26 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
           onClick={() => fileInputRef.current?.click()}
           className={`border-2 border-dashed rounded-xl p-4 sm:p-5 text-center transition-all cursor-pointer select-none ${
             isDragging
-              ? 'border-emerald-400 bg-emerald-950/40 scale-[1.01]'
-              : 'border-slate-700/80 bg-slate-950/60 hover:border-emerald-600/70 hover:bg-slate-900/80'
+              ? 'border-indigo-500 bg-indigo-50/50 scale-[1.01]'
+              : 'border-slate-300 bg-slate-50/50 hover:border-indigo-400 hover:bg-indigo-50/20'
           }`}
         >
           <div className="flex flex-col items-center justify-center space-y-2">
-            <div className="h-10 w-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-slate-300 shadow-inner group-hover:text-emerald-400">
-              <UploadCloud className="h-5 w-5 text-emerald-400" />
+            <div className="h-10 w-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 shadow-xs">
+              <UploadCloud className="h-5 w-5 text-indigo-600" />
             </div>
 
             <div>
-              <p className="text-xs font-semibold text-slate-200">
+              <p className="text-xs font-bold text-slate-800">
                 Click to browse device or drag & drop receipt
               </p>
-              <p className="text-[11px] text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-500 mt-0.5">
                 Supports PNG, JPG, WEBP, or PDF (up to 10MB)
               </p>
             </div>
 
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-400 font-medium">
-              <Sparkles className="h-3 w-3 text-emerald-400" />
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white border border-slate-200 text-xs text-slate-600 font-medium shadow-xs">
+              <Sparkles className="h-3 w-3 text-indigo-600" />
               <span>Auto-extracts vendor, total amount & category</span>
             </div>
           </div>
@@ -398,7 +398,7 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
 
       {/* 1-Click Sample Receipts Test Shortcuts */}
       <div className="pt-1">
-        <div className="text-[11px] text-slate-400 font-medium mb-1.5 flex items-center justify-between">
+        <div className="text-xs text-slate-500 font-medium mb-1.5 flex items-center justify-between">
           <span>Or choose a test receipt preset:</span>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
@@ -408,7 +408,7 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
               type="button"
               id={`preset-receipt-${preset.type}`}
               onClick={() => handlePresetSelect(preset)}
-              className="px-2 py-1.5 text-[11px] font-medium bg-slate-950 hover:bg-slate-800 text-slate-300 hover:text-white rounded-md border border-slate-800 hover:border-slate-700 text-left transition-colors cursor-pointer truncate"
+              className="px-2.5 py-1.5 text-xs font-semibold bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 rounded-lg border border-slate-200 text-left transition-colors cursor-pointer truncate shadow-xs"
               title={`${preset.merchant} - $${preset.amount}`}
             >
               <span className="truncate block">{preset.label}</span>
@@ -419,36 +419,36 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
 
       {/* Modal: Receipt Image Lightbox Preview */}
       {showPreviewModal && claim.receiptPreviewUrl && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl space-y-3 p-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-              <div className="text-xs font-bold text-white flex items-center gap-2">
-                <FileImage className="h-4 w-4 text-emerald-400" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-in fade-in">
+          <div className="bg-white border border-slate-200 rounded-2xl max-w-lg w-full overflow-hidden shadow-xl space-y-3 p-4">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+              <div className="text-xs font-bold text-slate-900 flex items-center gap-2">
+                <FileImage className="h-4 w-4 text-indigo-600" />
                 <span>{fileName}</span>
               </div>
               <button
                 type="button"
                 onClick={() => setShowPreviewModal(false)}
-                className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800"
+                className="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="max-h-96 overflow-auto rounded-lg bg-slate-950 p-2 flex items-center justify-center">
+            <div className="max-h-96 overflow-auto rounded-lg bg-slate-100 p-2 flex items-center justify-center">
               <img
                 src={claim.receiptPreviewUrl}
                 alt="Uploaded Expense Receipt"
-                className="max-h-80 max-w-full object-contain rounded shadow"
+                className="max-h-80 max-w-full object-contain rounded shadow-xs"
               />
             </div>
 
-            <div className="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-800">
+            <div className="flex items-center justify-between text-xs text-slate-600 pt-2 border-t border-slate-100">
               <span>{claim.merchant} • ${claim.amount.toFixed(2)}</span>
               <button
                 type="button"
                 onClick={() => setShowPreviewModal(false)}
-                className="px-3 py-1.5 bg-slate-800 text-white rounded font-medium text-xs hover:bg-slate-700"
+                className="px-3 py-1.5 bg-slate-100 text-slate-700 rounded-lg font-semibold text-xs hover:bg-slate-200"
               >
                 Close
               </button>

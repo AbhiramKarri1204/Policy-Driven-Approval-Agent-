@@ -34,25 +34,25 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
       : 0;
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
       {/* 1. Total Claims Card */}
       <div
         id="metric-card-all"
         onClick={() => onFilterSelect('ALL')}
-        className={`bg-slate-900 border rounded-lg p-3.5 transition-all cursor-pointer ${
+        className={`bg-white border rounded-xl p-4 transition-all cursor-pointer ${
           selectedFilter === 'ALL'
-            ? 'border-emerald-500/80 bg-slate-800/90 ring-1 ring-emerald-500/50'
-            : 'border-slate-800 hover:border-slate-700'
+            ? 'border-indigo-600 ring-2 ring-indigo-600/10 shadow-sm'
+            : 'border-slate-200 hover:border-slate-300 shadow-xs'
         }`}
       >
-        <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
-          <span>Total Claims</span>
+        <div className="flex items-center justify-between text-xs text-slate-500 mb-1">
+          <span className="font-semibold">Total Claims</span>
           <Layers className="h-4 w-4 text-slate-400" />
         </div>
-        <div className="text-xl font-bold text-white tracking-tight">
+        <div className="text-2xl font-bold text-slate-900 tracking-tight font-mono">
           {stats.totalClaims}
         </div>
-        <div className="text-[11px] text-slate-400 mt-1">
+        <div className="text-xs text-slate-500 mt-1">
           {stats.rulesEvaluatedCount} active policies
         </div>
       </div>
@@ -61,20 +61,20 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
       <div
         id="metric-card-approve"
         onClick={() => onFilterSelect('APPROVE')}
-        className={`bg-slate-900 border rounded-lg p-3.5 transition-all cursor-pointer ${
+        className={`bg-white border rounded-xl p-4 transition-all cursor-pointer ${
           selectedFilter === 'APPROVE'
-            ? 'border-emerald-500 bg-emerald-950/20 ring-1 ring-emerald-500'
-            : 'border-slate-800 hover:border-slate-700'
+            ? 'border-emerald-600 ring-2 ring-emerald-600/10 shadow-sm'
+            : 'border-slate-200 hover:border-slate-300 shadow-xs'
         }`}
       >
-        <div className="flex items-center justify-between text-xs text-emerald-400 mb-1">
-          <span className="font-medium">Approved</span>
-          <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+        <div className="flex items-center justify-between text-xs text-emerald-700 mb-1">
+          <span className="font-semibold">Auto-Approved</span>
+          <CheckCircle2 className="h-4 w-4 text-emerald-600" />
         </div>
-        <div className="text-xl font-bold text-emerald-300 tracking-tight">
+        <div className="text-2xl font-bold text-emerald-700 tracking-tight font-mono">
           {stats.approvedCount}
         </div>
-        <div className="text-[11px] text-emerald-500/80 mt-1">
+        <div className="text-xs text-emerald-600 mt-1">
           {approvedPct}% auto-passed
         </div>
       </div>
@@ -83,21 +83,21 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
       <div
         id="metric-card-reject"
         onClick={() => onFilterSelect('REJECT')}
-        className={`bg-slate-900 border rounded-lg p-3.5 transition-all cursor-pointer ${
+        className={`bg-white border rounded-xl p-4 transition-all cursor-pointer ${
           selectedFilter === 'REJECT'
-            ? 'border-rose-500 bg-rose-950/20 ring-1 ring-rose-500'
-            : 'border-slate-800 hover:border-slate-700'
+            ? 'border-rose-600 ring-2 ring-rose-600/10 shadow-sm'
+            : 'border-slate-200 hover:border-slate-300 shadow-xs'
         }`}
       >
-        <div className="flex items-center justify-between text-xs text-rose-400 mb-1">
-          <span className="font-medium">Rejected</span>
-          <XCircle className="h-4 w-4 text-rose-400" />
+        <div className="flex items-center justify-between text-xs text-rose-700 mb-1">
+          <span className="font-semibold">Auto-Rejected</span>
+          <XCircle className="h-4 w-4 text-rose-600" />
         </div>
-        <div className="text-xl font-bold text-rose-300 tracking-tight">
+        <div className="text-2xl font-bold text-rose-700 tracking-tight font-mono">
           {stats.rejectedCount}
         </div>
-        <div className="text-[11px] text-rose-500/80 mt-1">
-          {rejectedPct}% policy violations
+        <div className="text-xs text-rose-600 mt-1">
+          {rejectedPct}% violations
         </div>
       </div>
 
@@ -105,21 +105,21 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
       <div
         id="metric-card-escalate"
         onClick={() => onFilterSelect('ESCALATE')}
-        className={`bg-slate-900 border rounded-lg p-3.5 transition-all cursor-pointer ${
+        className={`bg-white border rounded-xl p-4 transition-all cursor-pointer ${
           selectedFilter === 'ESCALATE'
-            ? 'border-amber-500 bg-amber-950/20 ring-1 ring-amber-500'
-            : 'border-slate-800 hover:border-slate-700'
+            ? 'border-amber-600 ring-2 ring-amber-600/10 shadow-sm'
+            : 'border-slate-200 hover:border-slate-300 shadow-xs'
         }`}
       >
-        <div className="flex items-center justify-between text-xs text-amber-400 mb-1">
-          <span className="font-medium">Escalated</span>
-          <AlertTriangle className="h-4 w-4 text-amber-400" />
+        <div className="flex items-center justify-between text-xs text-amber-800 mb-1">
+          <span className="font-semibold">Escalated</span>
+          <AlertTriangle className="h-4 w-4 text-amber-600" />
         </div>
-        <div className="text-xl font-bold text-amber-300 tracking-tight">
+        <div className="text-2xl font-bold text-amber-700 tracking-tight font-mono">
           {stats.escalatedCount}
         </div>
-        <div className="text-[11px] text-amber-500/80 mt-1">
-          {escalatedPct}% human review
+        <div className="text-xs text-amber-700 mt-1">
+          {escalatedPct}% supervisor review
         </div>
       </div>
 
@@ -127,20 +127,20 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
       <div
         id="metric-card-conflict"
         onClick={() => onFilterSelect('CONFLICT')}
-        className={`bg-slate-900 border rounded-lg p-3.5 transition-all cursor-pointer ${
+        className={`bg-white border rounded-xl p-4 transition-all cursor-pointer ${
           selectedFilter === 'CONFLICT'
-            ? 'border-indigo-500 bg-indigo-950/20 ring-1 ring-indigo-500'
-            : 'border-slate-800 hover:border-slate-700'
+            ? 'border-indigo-600 ring-2 ring-indigo-600/10 shadow-sm'
+            : 'border-slate-200 hover:border-slate-300 shadow-xs'
         }`}
       >
-        <div className="flex items-center justify-between text-xs text-indigo-400 mb-1">
-          <span className="font-medium">Conflicts Caught</span>
-          <HelpCircle className="h-4 w-4 text-indigo-400" />
+        <div className="flex items-center justify-between text-xs text-indigo-700 mb-1">
+          <span className="font-semibold">Conflicts Caught</span>
+          <HelpCircle className="h-4 w-4 text-indigo-600" />
         </div>
-        <div className="text-xl font-bold text-indigo-300 tracking-tight">
+        <div className="text-2xl font-bold text-indigo-700 tracking-tight font-mono">
           {stats.conflictCount}
         </div>
-        <div className="text-[11px] text-indigo-400/80 mt-1">
+        <div className="text-xs text-indigo-600 mt-1">
           Opposing rules trapped
         </div>
       </div>
@@ -148,19 +148,20 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
       {/* 6. Latency Benchmark Card */}
       <div
         id="metric-card-latency"
-        className="bg-slate-900 border border-slate-800 rounded-lg p-3.5"
+        className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs"
       >
-        <div className="flex items-center justify-between text-xs text-cyan-400 mb-1">
-          <span className="font-medium">Speed Benchmark</span>
-          <Zap className="h-4 w-4 text-cyan-400" />
+        <div className="flex items-center justify-between text-xs text-slate-600 mb-1">
+          <span className="font-semibold">Execution Latency</span>
+          <Zap className="h-4 w-4 text-amber-500" />
         </div>
-        <div className="text-xl font-bold text-cyan-300 tracking-tight">
+        <div className="text-2xl font-bold text-slate-900 tracking-tight font-mono">
           {stats.averageExecutionDurationUs} µs
         </div>
-        <div className="text-[11px] text-cyan-500/80 mt-1">
-          {stats.totalExecutionDurationMs}ms total batch
+        <div className="text-xs text-slate-500 mt-1">
+          {stats.totalExecutionDurationMs}ms batch speed
         </div>
       </div>
     </div>
   );
 };
+
