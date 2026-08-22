@@ -127,13 +127,13 @@ export const PolicyRulesFullScreen: React.FC<PolicyRulesFullScreenProps> = ({
   const getActionBadge = (action: RuleAction) => {
     switch (action) {
       case 'APPROVE':
-        return 'bg-emerald-50 text-emerald-950 font-bold border-emerald-200';
+        return 'bg-emerald-50 text-emerald-700 font-semibold border-emerald-200';
       case 'REJECT':
-        return 'bg-rose-50 text-rose-950 font-bold border-rose-200';
+        return 'bg-rose-50 text-rose-700 font-semibold border-rose-200';
       case 'ESCALATE':
-        return 'bg-amber-50 text-amber-950 font-bold border-amber-200';
+        return 'bg-amber-50 text-amber-800 font-semibold border-amber-200';
       default:
-        return 'bg-slate-100 text-slate-800 font-bold border-slate-200';
+        return 'bg-slate-100 text-slate-700 font-semibold border-slate-200';
     }
   };
 

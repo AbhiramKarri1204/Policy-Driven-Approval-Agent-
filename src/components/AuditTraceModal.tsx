@@ -94,18 +94,18 @@ export const AuditTraceModal: React.FC<AuditTraceModalProps> = ({
               <div className="flex items-center gap-1.5 text-sm font-semibold mt-0.5">
                 <Receipt className="h-3.5 w-3.5 text-slate-400" />
                 {claim.hasReceipt === true ? (
-                  <span className="text-emerald-900 font-bold flex items-center gap-1">
+                  <span className="text-emerald-700 font-semibold flex items-center gap-1">
                     <span>Yes (Verified)</span>
                     {claim.receiptFileName && (
-                      <span className="text-[10px] bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 text-emerald-950 font-mono font-bold">
+                      <span className="text-[10px] bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 text-emerald-700 font-mono">
                         {claim.receiptFileName}
                       </span>
                     )}
                   </span>
                 ) : claim.hasReceipt === false ? (
-                  <span className="text-rose-900 font-bold">No (Missing)</span>
+                  <span className="text-rose-700 font-semibold">No (Missing)</span>
                 ) : (
-                  <span className="text-amber-900 font-bold">Unspecified (Null)</span>
+                  <span className="text-amber-800 font-semibold">Unspecified (Null)</span>
                 )}
               </div>
             </div>
@@ -119,22 +119,28 @@ export const AuditTraceModal: React.FC<AuditTraceModalProps> = ({
           <div
             className={`p-5 rounded-xl border shadow-xs ${
               decision === 'APPROVE'
-                ? 'bg-emerald-50/60 border-emerald-200 text-emerald-950'
+                ? 'bg-emerald-50/70 border-emerald-200 text-emerald-900'
                 : decision === 'REJECT'
-                ? 'bg-rose-50/60 border-rose-200 text-rose-950'
-                : 'bg-amber-50/60 border-amber-200 text-amber-950'
+                ? 'bg-rose-50/70 border-rose-200 text-rose-900'
+                : 'bg-amber-50/70 border-amber-200 text-amber-900'
             }`}
           >
             <div className="flex items-center justify-between gap-2 mb-2.5">
               <div className="flex items-center gap-2">
                 {decision === 'APPROVE' ? (
-                  <CheckCircle2 className="h-5 w-5 text-emerald-800" />
+                  <div className="h-7 w-7 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                    <CheckCircle2 className="h-4 w-4" />
+                  </div>
                 ) : decision === 'REJECT' ? (
-                  <XCircle className="h-5 w-5 text-rose-800" />
+                  <div className="h-7 w-7 rounded-full bg-rose-100 flex items-center justify-center text-rose-600">
+                    <XCircle className="h-4 w-4" />
+                  </div>
                 ) : (
-                  <AlertTriangle className="h-5 w-5 text-amber-700" />
+                  <div className="h-7 w-7 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+                    <AlertTriangle className="h-4 w-4" />
+                  </div>
                 )}
-                <span className="text-sm font-extrabold tracking-wide uppercase">
+                <span className="text-sm font-bold tracking-wide uppercase">
                   Final Decision: {decision}
                 </span>
               </div>
@@ -171,12 +177,12 @@ export const AuditTraceModal: React.FC<AuditTraceModalProps> = ({
                       <span className="text-slate-700 font-medium">"{cr.ruleName}"</span>
                     </div>
                     <span
-                      className={`px-2 py-0.5 rounded font-bold uppercase text-[10px] ${
+                      className={`px-2 py-0.5 rounded font-semibold uppercase text-[10px] ${
                         cr.action === 'APPROVE'
-                          ? 'bg-emerald-50 text-emerald-950 border border-emerald-200'
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                           : cr.action === 'REJECT'
-                          ? 'bg-rose-50 text-rose-950 border border-rose-200'
-                          : 'bg-amber-50 text-amber-950 border border-amber-200'
+                          ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                          : 'bg-amber-50 text-amber-800 border border-amber-200'
                       }`}
                     >
                       Action: {cr.action}
@@ -230,20 +236,20 @@ export const AuditTraceModal: React.FC<AuditTraceModalProps> = ({
 
                       <div className="flex items-center gap-2">
                         <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
+                          className={`text-[10px] font-semibold px-2 py-0.5 rounded uppercase ${
                             trace.action === 'APPROVE'
-                              ? 'bg-emerald-50 text-emerald-950 border border-emerald-200'
+                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                               : trace.action === 'REJECT'
-                              ? 'bg-rose-50 text-rose-950 border border-rose-200'
-                              : 'bg-amber-50 text-amber-950 border border-amber-200'
+                              ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                              : 'bg-amber-50 text-amber-800 border border-amber-200'
                           }`}
                         >
                           Target: {trace.action}
                         </span>
 
                         {trace.passed ? (
-                          <span className="text-xs font-bold text-emerald-900 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 flex items-center gap-1">
-                            <CheckCircle2 className="h-3 w-3 text-emerald-800" /> MATCHED
+                          <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 flex items-center gap-1">
+                            <CheckCircle2 className="h-3 w-3 text-emerald-600" /> MATCHED
                           </span>
                         ) : (
                           <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
@@ -257,7 +263,7 @@ export const AuditTraceModal: React.FC<AuditTraceModalProps> = ({
                     <div className="text-xs text-slate-600 mb-2.5 flex items-center gap-2">
                       <span className="text-slate-500 font-medium">Scope:</span>
                       {trace.scopeMatch.passed ? (
-                        <span className="text-emerald-900 font-bold">Scope Matched (Target Dept & Category OK)</span>
+                        <span className="text-emerald-700 font-semibold">Scope Matched (Target Dept & Category OK)</span>
                       ) : (
                         <span className="text-slate-500">
                           Scope Mismatch: {trace.scopeMatch.reason}
@@ -291,12 +297,12 @@ export const AuditTraceModal: React.FC<AuditTraceModalProps> = ({
 
                             <div>
                               {cond.passed ? (
-                                <span className="text-emerald-900 font-extrabold text-xs flex items-center gap-1">
-                                  <CheckCircle2 className="h-3 w-3 text-emerald-800" /> PASSED
+                                <span className="text-emerald-600 font-bold text-xs flex items-center gap-1">
+                                  <CheckCircle2 className="h-3 w-3 text-emerald-600" /> PASSED
                                 </span>
                               ) : (
-                                <span className="text-rose-900 font-extrabold text-xs flex items-center gap-1">
-                                  <XCircle className="h-3 w-3 text-rose-800" /> FAILED
+                                <span className="text-rose-600 font-bold text-xs flex items-center gap-1">
+                                  <XCircle className="h-3 w-3 text-rose-600" /> FAILED
                                 </span>
                               )}
                             </div>

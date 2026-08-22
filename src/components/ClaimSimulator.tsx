@@ -298,9 +298,9 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
                   type="button"
                   id="receipt-toggle-yes"
                   onClick={() => setClaim({ ...claim, hasReceipt: true })}
-                  className={`py-2 text-xs font-bold rounded-lg border transition-all cursor-pointer ${
+                  className={`py-2 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${
                     claim.hasReceipt === true
-                      ? 'bg-emerald-50 border-emerald-300 text-emerald-950 shadow-xs'
+                      ? 'bg-emerald-50 border-emerald-300 text-emerald-700 shadow-xs'
                       : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
@@ -318,9 +318,9 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
                       receiptPreviewUrl: undefined
                     })
                   }
-                  className={`py-2 text-xs font-bold rounded-lg border transition-all cursor-pointer ${
+                  className={`py-2 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${
                     claim.hasReceipt === false
-                      ? 'bg-rose-50 border-rose-300 text-rose-950 shadow-xs'
+                      ? 'bg-rose-50 border-rose-300 text-rose-700 shadow-xs'
                       : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
@@ -338,9 +338,9 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
                       receiptPreviewUrl: undefined
                     })
                   }
-                  className={`py-2 text-xs font-bold rounded-lg border transition-all cursor-pointer ${
+                  className={`py-2 text-xs font-semibold rounded-lg border transition-all cursor-pointer ${
                     claim.hasReceipt === null
-                      ? 'bg-amber-50 border-amber-300 text-amber-950 shadow-xs'
+                      ? 'bg-amber-50 border-amber-300 text-amber-800 shadow-xs'
                       : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
@@ -415,28 +415,34 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
               <div
                 className={`p-5 sm:p-6 rounded-xl border shadow-xs ${
                   evaluation.decision === 'APPROVE'
-                    ? 'bg-emerald-50/50 border-emerald-200'
+                    ? 'bg-emerald-50/70 border-emerald-200'
                     : evaluation.decision === 'REJECT'
-                    ? 'bg-rose-50/50 border-rose-200'
-                    : 'bg-amber-50/50 border-amber-200'
+                    ? 'bg-rose-50/70 border-rose-200'
+                    : 'bg-amber-50/70 border-amber-200'
                 }`}
               >
                 <div className="flex items-center justify-between mb-3.5">
                   <div className="flex items-center gap-2.5">
                     {evaluation.decision === 'APPROVE' ? (
-                      <CheckCircle2 className="h-6 w-6 text-emerald-800" />
+                      <div className="h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                        <CheckCircle2 className="h-5 w-5" />
+                      </div>
                     ) : evaluation.decision === 'REJECT' ? (
-                      <XCircle className="h-6 w-6 text-rose-800" />
+                      <div className="h-8 w-8 rounded-full bg-rose-100 flex items-center justify-center text-rose-600">
+                        <XCircle className="h-5 w-5" />
+                      </div>
                     ) : (
-                      <AlertTriangle className="h-6 w-6 text-amber-700" />
+                      <div className="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+                        <AlertTriangle className="h-5 w-5" />
+                      </div>
                     )}
                     <div>
-                      <div className={`text-base font-extrabold uppercase tracking-wide ${
+                      <div className={`text-base font-bold uppercase tracking-wide ${
                         evaluation.decision === 'APPROVE'
-                          ? 'text-emerald-950'
+                          ? 'text-emerald-700'
                           : evaluation.decision === 'REJECT'
-                          ? 'text-rose-950'
-                          : 'text-amber-950'
+                          ? 'text-rose-700'
+                          : 'text-amber-800'
                       }`}>
                         Decision: {evaluation.decision}
                       </div>
@@ -525,9 +531,9 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
                             <span className="text-slate-800">{trace.ruleName}</span>
                           </div>
                           <span
-                            className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${
+                            className={`text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase ${
                               isFired
-                                ? 'bg-emerald-50 text-emerald-950 border border-emerald-200'
+                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                                 : 'bg-slate-100 text-slate-500'
                             }`}
                           >
@@ -542,7 +548,7 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
                                 <span className="text-slate-600">
                                   {c.field} {c.operator} {JSON.stringify(c.expectedValue)} (actual: {JSON.stringify(c.actualValue)})
                                 </span>
-                                <span className={c.passed ? 'text-emerald-900 font-extrabold' : 'text-rose-900 font-extrabold'}>
+                                <span className={c.passed ? 'text-emerald-600 font-bold' : 'text-rose-600 font-bold'}>
                                   {c.passed ? 'PASS' : 'FAIL'}
                                 </span>
                               </div>

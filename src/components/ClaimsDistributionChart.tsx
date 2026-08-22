@@ -44,35 +44,35 @@ export const ClaimsDistributionChart: React.FC<ClaimsDistributionChartProps> = (
     {
       name: 'Approved',
       value: stats.approvedCount,
-      color: '#10b981', // emerald-500
-      activeColor: '#059669', // emerald-600
+      color: '#34d399', // light emerald-400
+      activeColor: '#10b981', // emerald-500
       filterKey: 'APPROVE',
       icon: CheckCircle2,
-      textColor: 'text-emerald-900',
+      textColor: 'text-emerald-700',
       badgeBg: 'bg-emerald-50',
-      borderColor: 'border-emerald-300'
+      borderColor: 'border-emerald-200'
     },
     {
       name: 'Rejected',
       value: stats.rejectedCount,
-      color: '#f43f5e', // rose-500
-      activeColor: '#e11d48', // rose-600
+      color: '#fb7185', // light rose-400
+      activeColor: '#f43f5e', // rose-500
       filterKey: 'REJECT',
       icon: XCircle,
-      textColor: 'text-rose-900',
+      textColor: 'text-rose-700',
       badgeBg: 'bg-rose-50',
-      borderColor: 'border-rose-300'
+      borderColor: 'border-rose-200'
     },
     {
       name: 'Escalated',
       value: stats.escalatedCount,
-      color: '#f59e0b', // amber-500
-      activeColor: '#d97706', // amber-600
+      color: '#fbbf24', // amber-400
+      activeColor: '#f59e0b', // amber-500
       filterKey: 'ESCALATE',
       icon: AlertTriangle,
-      textColor: 'text-amber-900',
+      textColor: 'text-amber-700',
       badgeBg: 'bg-amber-50',
-      borderColor: 'border-amber-300'
+      borderColor: 'border-amber-200'
     }
   ];
 

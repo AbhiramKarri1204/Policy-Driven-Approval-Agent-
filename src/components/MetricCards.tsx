@@ -57,46 +57,50 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
         </div>
       </div>
 
-      {/* 2. Approved Card */}
+      {/* 2. Approved Card - Light Green */}
       <div
         id="metric-card-approve"
         onClick={() => onFilterSelect('APPROVE')}
-        className={`bg-white border rounded-xl p-4 transition-all cursor-pointer ${
+        className={`rounded-xl p-4 transition-all cursor-pointer border ${
           selectedFilter === 'APPROVE'
-            ? 'border-emerald-600 ring-2 ring-emerald-600/10 shadow-sm'
-            : 'border-slate-200 hover:border-slate-300 shadow-xs'
+            ? 'bg-emerald-50 border-emerald-400 ring-2 ring-emerald-200/60 shadow-xs'
+            : 'bg-emerald-50/50 hover:bg-emerald-50 border-emerald-200/70 hover:border-emerald-300 shadow-xs'
         }`}
       >
-        <div className="flex items-center justify-between text-xs text-emerald-900 mb-1">
-          <span className="font-bold">Auto-Approved</span>
-          <CheckCircle2 className="h-4 w-4 text-emerald-800" />
+        <div className="flex items-center justify-between text-xs text-emerald-700 mb-1">
+          <span className="font-semibold">Auto-Approved</span>
+          <div className="h-6 w-6 rounded-full bg-emerald-100/90 flex items-center justify-center text-emerald-600">
+            <CheckCircle2 className="h-3.5 w-3.5" />
+          </div>
         </div>
-        <div className="text-2xl font-bold text-emerald-900 tracking-tight font-mono">
+        <div className="text-2xl font-bold text-emerald-700 tracking-tight font-mono">
           {stats.approvedCount}
         </div>
-        <div className="text-xs text-emerald-800 font-medium mt-1">
+        <div className="text-xs text-emerald-600 font-medium mt-1">
           {approvedPct}% auto-passed
         </div>
       </div>
 
-      {/* 3. Rejected Card */}
+      {/* 3. Rejected Card - Light Red */}
       <div
         id="metric-card-reject"
         onClick={() => onFilterSelect('REJECT')}
-        className={`bg-white border rounded-xl p-4 transition-all cursor-pointer ${
+        className={`rounded-xl p-4 transition-all cursor-pointer border ${
           selectedFilter === 'REJECT'
-            ? 'border-rose-600 ring-2 ring-rose-600/10 shadow-sm'
-            : 'border-slate-200 hover:border-slate-300 shadow-xs'
+            ? 'bg-rose-50 border-rose-400 ring-2 ring-rose-200/60 shadow-xs'
+            : 'bg-rose-50/50 hover:bg-rose-50 border-rose-200/70 hover:border-rose-300 shadow-xs'
         }`}
       >
-        <div className="flex items-center justify-between text-xs text-rose-900 mb-1">
-          <span className="font-bold">Auto-Rejected</span>
-          <XCircle className="h-4 w-4 text-rose-800" />
+        <div className="flex items-center justify-between text-xs text-rose-700 mb-1">
+          <span className="font-semibold">Auto-Rejected</span>
+          <div className="h-6 w-6 rounded-full bg-rose-100/90 flex items-center justify-center text-rose-600">
+            <XCircle className="h-3.5 w-3.5" />
+          </div>
         </div>
-        <div className="text-2xl font-bold text-rose-900 tracking-tight font-mono">
+        <div className="text-2xl font-bold text-rose-700 tracking-tight font-mono">
           {stats.rejectedCount}
         </div>
-        <div className="text-xs text-rose-800 font-medium mt-1">
+        <div className="text-xs text-rose-600 font-medium mt-1">
           {rejectedPct}% violations
         </div>
       </div>
