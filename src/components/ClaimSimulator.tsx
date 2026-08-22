@@ -10,10 +10,12 @@ import {
   Code,
   FileText,
   ArrowRight,
-  PlusCircle
+  PlusCircle,
+  Receipt
 } from 'lucide-react';
 import { evaluateClaim } from '../engine/decisionEngine';
 import { EvaluationResult, ExpenseClaim, StructuredRule } from '../types';
+import { ReceiptUploadZone, ExtractedReceiptData } from './ReceiptUploadZone';
 
 interface ClaimSimulatorProps {
   rules: StructuredRule[];
@@ -253,12 +255,48 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
               </select>
             </div>
 
-            {/* Receipt Status */}
+            {/* Receipt Upload from Device with OCR & Drag-and-Drop */}
+            <div className="pt-1 pb-1">
+              <ReceiptUploadZone
+                claim={claim}
+                onReceiptAttached={(extractedData: ExtractedReceiptData) => {
+                  setClaim((prev) => ({
+                    ...prev,
+                    hasReceipt: true,
+                    merchant: extractedData.merchant || prev.merchant,
+                    amount: typeof extractedData.amount === 'number' ? extractedData.amount : prev.amount,
+                    category: extractedData.category || prev.category,
+                    date: extractedData.date || prev.date,
+                    description: extractedData.description || prev.description,
+                    receiptFileName: extractedData.fileName,
+                    receiptFileSize: extractedData.fileSize,
+                    receiptPreviewUrl: extractedData.previewUrl,
+                    receiptConfidence: extractedData.confidence
+                  }));
+                }}
+                onReceiptRemoved={() => {
+                  setClaim((prev) => ({
+                    ...prev,
+                    hasReceipt: false,
+                    receiptFileName: undefined,
+                    receiptFileSize: undefined,
+                    receiptPreviewUrl: undefined,
+                    receiptConfidence: undefined
+                  }));
+                }}
+              />
+            </div>
+
+            {/* Quick Receipt Status Override Buttons */}
             <div>
-              <label className="block text-slate-400 font-medium mb-1">Itemized Receipt Attached</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-slate-400 font-medium">Receipt Gate Status</label>
+                <span className="text-[10px] text-slate-500">Quick toggle</span>
+              </div>
               <div className="grid grid-cols-3 gap-2">
                 <button
                   type="button"
+                  id="receipt-toggle-yes"
                   onClick={() => setClaim({ ...claim, hasReceipt: true })}
                   className={`py-1.5 text-xs font-semibold rounded border transition-colors cursor-pointer ${
                     claim.hasReceipt === true
@@ -270,7 +308,16 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
                 </button>
                 <button
                   type="button"
-                  onClick={() => setClaim({ ...claim, hasReceipt: false })}
+                  id="receipt-toggle-no"
+                  onClick={() =>
+                    setClaim({
+                      ...claim,
+                      hasReceipt: false,
+                      receiptFileName: undefined,
+                      receiptFileSize: undefined,
+                      receiptPreviewUrl: undefined
+                    })
+                  }
                   className={`py-1.5 text-xs font-semibold rounded border transition-colors cursor-pointer ${
                     claim.hasReceipt === false
                       ? 'bg-rose-950 border-rose-600 text-rose-300'
@@ -281,14 +328,23 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
                 </button>
                 <button
                   type="button"
-                  onClick={() => setClaim({ ...claim, hasReceipt: null })}
+                  id="receipt-toggle-null"
+                  onClick={() =>
+                    setClaim({
+                      ...claim,
+                      hasReceipt: null,
+                      receiptFileName: undefined,
+                      receiptFileSize: undefined,
+                      receiptPreviewUrl: undefined
+                    })
+                  }
                   className={`py-1.5 text-xs font-semibold rounded border transition-colors cursor-pointer ${
                     claim.hasReceipt === null
                       ? 'bg-amber-950 border-amber-600 text-amber-300'
                       : 'bg-slate-950 border-slate-800 text-slate-400 hover:bg-slate-900'
                   }`}
                 >
-                  Null (Unspecified)
+                  Null (Edge Test)
                 </button>
               </div>
             </div>
@@ -298,9 +354,10 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
               <label className="block text-slate-400 font-medium mb-1">Merchant / Vendor</label>
               <input
                 type="text"
+                id="claim-input-merchant"
                 value={claim.merchant}
                 onChange={(e) => setClaim({ ...claim, merchant: e.target.value })}
-                className="w-full px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-md text-slate-200 focus:outline-none focus:border-emerald-500"
+                className="w-full px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-md text-slate-200 focus:outline-none focus:border-emerald-500 text-xs"
               />
             </div>
 
@@ -309,9 +366,10 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
               <label className="block text-slate-400 font-medium mb-1">Description / Business Purpose</label>
               <input
                 type="text"
+                id="claim-input-description"
                 value={claim.description}
                 onChange={(e) => setClaim({ ...claim, description: e.target.value })}
-                className="w-full px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-md text-slate-200 focus:outline-none focus:border-emerald-500"
+                className="w-full px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-md text-slate-200 focus:outline-none focus:border-emerald-500 text-xs"
               />
             </div>
           </div>

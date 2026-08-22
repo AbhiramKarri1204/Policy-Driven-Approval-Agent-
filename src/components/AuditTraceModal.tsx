@@ -94,7 +94,14 @@ export const AuditTraceModal: React.FC<AuditTraceModalProps> = ({
               <div className="flex items-center gap-1 text-sm font-medium mt-0.5">
                 <Receipt className="h-3.5 w-3.5 text-slate-400" />
                 {claim.hasReceipt === true ? (
-                  <span className="text-emerald-400 font-semibold">Yes (Verified)</span>
+                  <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                    <span>Yes (Verified)</span>
+                    {claim.receiptFileName && (
+                      <span className="text-[10px] bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-700 text-emerald-300 font-mono">
+                        {claim.receiptFileName}
+                      </span>
+                    )}
+                  </span>
                 ) : claim.hasReceipt === false ? (
                   <span className="text-rose-400 font-semibold">No (Missing)</span>
                 ) : (

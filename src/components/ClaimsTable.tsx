@@ -455,8 +455,14 @@ export const ClaimsTable: React.FC<ClaimsTableProps> = ({
                       </div>
                       <div className="flex items-center gap-1 mt-0.5">
                         {claim.hasReceipt === true ? (
-                          <span className="inline-flex items-center gap-0.5 text-[10px] text-emerald-400">
-                            <Receipt className="h-3 w-3" /> Receipt OK
+                          <span className="inline-flex items-center gap-1 text-[10px] text-emerald-400">
+                            <Receipt className="h-3 w-3" />
+                            <span>Receipt OK</span>
+                            {claim.receiptFileName && (
+                              <span className="px-1 py-0.2 rounded bg-emerald-950/80 text-[9px] text-emerald-300 border border-emerald-800" title={claim.receiptFileName}>
+                                Uploaded
+                              </span>
+                            )}
                           </span>
                         ) : claim.hasReceipt === false ? (
                           <span className="inline-flex items-center gap-0.5 text-[10px] text-rose-400 font-medium">

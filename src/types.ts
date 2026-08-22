@@ -67,6 +67,11 @@ export interface ExpenseClaim {
   merchant: string;
   description: string;
   hasReceipt?: boolean | null; // Can be missing/null for edge cases
+  receiptFileName?: string;
+  receiptFileSize?: number;
+  receiptPreviewUrl?: string;
+  receiptUploadedAt?: string;
+  receiptConfidence?: number;
   attendeesCount?: number;
   projectCode?: string;
   isEdgeCaseScenario?: boolean;

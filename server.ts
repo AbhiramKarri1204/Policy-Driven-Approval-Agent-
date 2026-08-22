@@ -3,7 +3,7 @@ import path from 'path';
 import { createServer as createViteServer } from 'vite';
 import { DEFAULT_RAW_RULES, DEFAULT_STRUCTURED_RULES, SAMPLE_CLAIMS } from './src/data/sampleData';
 import { evaluateBatch, evaluateClaim } from './src/engine/decisionEngine';
-import { parseBatchRulesWithGemini, parsePlainEnglishRuleWithGemini } from './src/server/geminiParser';
+import { parseBatchRulesWithGemini, parsePlainEnglishRuleWithGemini, scanReceiptWithGemini } from './src/server/geminiParser';
 import { ExpenseClaim, StructuredRule } from './src/types';
 import { parseRuleHeuristically } from './src/utils/heuristicParser';
 
@@ -78,6 +78,18 @@ async function startServer() {
     } catch (err: any) {
       console.error('[API /api/rules/parse-batch Error]', err);
       res.status(500).json({ error: err.message || 'Failed to parse batch rules' });
+    }
+  });
+
+  // POST Scan and extract expense parameters from an uploaded receipt
+  app.post('/api/receipt/scan', async (req, res) => {
+    try {
+      const { base64Data, mimeType, fileName } = req.body;
+      const scannedData = await scanReceiptWithGemini(base64Data, mimeType, fileName);
+      res.json({ scanned: scannedData });
+    } catch (err: any) {
+      console.error('[API /api/receipt/scan Error]', err);
+      res.status(500).json({ error: err.message || 'Failed to scan receipt' });
     }
   });
 
