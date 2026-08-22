@@ -20,14 +20,8 @@ import {
 import { parseRuleHeuristically } from './utils/heuristicParser';
 
 export default function App() {
-  const [isPolicyAccepted, setIsPolicyAccepted] = useState<boolean>(() => {
-    try {
-      return localStorage.getItem('corporate_policy_rules_accepted') === 'true';
-    } catch {
-      return false;
-    }
-  });
-
+  // Always start with false on initial load/mount so user strictly lands on the full-screen Policy Rules onboarding gate
+  const [isPolicyAccepted, setIsPolicyAccepted] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>('simulator');
   const [isReviewingRulesFullScreen, setIsReviewingRulesFullScreen] = useState<boolean>(false);
   const [rules, setRules] = useState<StructuredRule[]>(DEFAULT_STRUCTURED_RULES);
@@ -58,8 +52,23 @@ export default function App() {
     }
     setActiveTab('simulator');
     showToast(
-      `Policy rules accepted (${rules.filter((r) => r.enabled !== false).length} active rules). Showing Claim Simulator & Batch Evaluation.`,
+      `Policy rules accepted (${rules.filter((r) => r.enabled !== false).length} active rules). Unlocked Claim Simulator & Batch Evaluation.`,
       'success'
+    );
+  };
+
+  // Reset policy acceptance to re-trigger the full-screen gate
+  const handleResetPolicyAcceptance = () => {
+    setIsPolicyAccepted(false);
+    setIsReviewingRulesFullScreen(false);
+    try {
+      localStorage.removeItem('corporate_policy_rules_accepted');
+    } catch (e) {
+      console.warn('Error clearing localStorage', e);
+    }
+    showToast(
+      'Policy acceptance reset. Re-opened Full-Screen Policy Rules Review gate.',
+      'info'
     );
   };
 
@@ -229,6 +238,8 @@ export default function App() {
           onResetDefaults={handleResetDefaults}
           isCompiling={isCompiling}
           onAcceptPolicy={handleAcceptPolicy}
+          isAlreadyAccepted={isPolicyAccepted}
+          onClose={() => setIsReviewingRulesFullScreen(false)}
         />
       </div>
     );
@@ -265,6 +276,7 @@ export default function App() {
         totalClaims={claims.length}
         isPolicyAccepted={isPolicyAccepted}
         onReviewRules={() => setIsReviewingRulesFullScreen(true)}
+        onResetPolicyAcceptance={handleResetPolicyAcceptance}
       />
 
       {/* Main Content Area - Strictly Claim Simulator & Batch Evaluation */}

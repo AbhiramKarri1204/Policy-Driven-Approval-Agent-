@@ -5,7 +5,8 @@ import {
   PlayCircle,
   Zap,
   Sparkles,
-  RefreshCw
+  RefreshCw,
+  RotateCcw
 } from 'lucide-react';
 
 export type ActiveTab = 'simulator' | 'batch' | 'rules';
@@ -20,6 +21,7 @@ interface HeaderProps {
   totalClaims?: number;
   isPolicyAccepted?: boolean;
   onReviewRules?: () => void;
+  onResetPolicyAcceptance?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -31,7 +33,8 @@ export const Header: React.FC<HeaderProps> = ({
   totalRules,
   totalClaims = 20,
   isPolicyAccepted = true,
-  onReviewRules
+  onReviewRules,
+  onResetPolicyAcceptance
 }) => {
   return (
     <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 shadow-sm">
@@ -66,12 +69,25 @@ export const Header: React.FC<HeaderProps> = ({
                 type="button"
                 id="header-review-rules-btn"
                 onClick={onReviewRules}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-emerald-400 bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-800/80 rounded-md transition-colors cursor-pointer"
-                title="Review Corporate Policy Rules"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-300 bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-700/80 rounded-lg shadow-sm transition-all cursor-pointer group"
+                title="Open Full-Screen Policy Rules Review"
               >
-                <Sliders className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Rules Accepted ({totalRules})</span>
-                <span className="sm:hidden">Rules ({totalRules})</span>
+                <Sliders className="h-3.5 w-3.5 text-emerald-400 group-hover:rotate-12 transition-transform" />
+                <span className="hidden md:inline">Rules Accepted • Review Rules ({totalRules})</span>
+                <span className="md:hidden">Rules ({totalRules})</span>
+              </button>
+            )}
+
+            {isPolicyAccepted && onResetPolicyAcceptance && (
+              <button
+                type="button"
+                id="header-reset-policy-gate-btn"
+                onClick={onResetPolicyAcceptance}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-300 bg-slate-800/90 hover:bg-slate-750 hover:text-white border border-slate-700 rounded-lg transition-colors cursor-pointer"
+                title="Reset Policy Acceptance & Return to Initial Full-Screen Policy Rules Gate"
+              >
+                <RotateCcw className="h-3.5 w-3.5 text-slate-400" />
+                <span className="hidden lg:inline">Reset Policy Gate</span>
               </button>
             )}
 

@@ -28,6 +28,8 @@ interface PolicyRulesFullScreenProps {
   onResetDefaults: () => void;
   isCompiling: boolean;
   onAcceptPolicy: () => void;
+  isAlreadyAccepted?: boolean;
+  onClose?: () => void;
 }
 
 export const PolicyRulesFullScreen: React.FC<PolicyRulesFullScreenProps> = ({
@@ -37,7 +39,9 @@ export const PolicyRulesFullScreen: React.FC<PolicyRulesFullScreenProps> = ({
   onBatchRecompile,
   onResetDefaults,
   isCompiling,
-  onAcceptPolicy
+  onAcceptPolicy,
+  isAlreadyAccepted,
+  onClose
 }) => {
   const [newRuleInput, setNewRuleInput] = useState('');
   const [rawTextMode, setRawTextMode] = useState(false);
@@ -158,6 +162,17 @@ export const PolicyRulesFullScreen: React.FC<PolicyRulesFullScreenProps> = ({
           </div>
 
           <div className="flex items-center gap-2.5">
+            {isAlreadyAccepted && onClose && (
+              <button
+                type="button"
+                id="top-btn-close-review"
+                onClick={onClose}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition-colors cursor-pointer"
+              >
+                <span>Back to Workspace</span>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={handleExportTxt}
@@ -175,7 +190,7 @@ export const PolicyRulesFullScreen: React.FC<PolicyRulesFullScreenProps> = ({
               className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white text-xs sm:text-sm font-bold rounded-lg shadow-lg shadow-emerald-950 transition-all cursor-pointer"
             >
               <CheckCircle2 className="h-4 w-4" />
-              <span>Accept Policies & Proceed</span>
+              <span>{isAlreadyAccepted ? 'Save Changes & Return' : 'Accept Policies & Proceed'}</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
@@ -500,6 +515,17 @@ export const PolicyRulesFullScreen: React.FC<PolicyRulesFullScreenProps> = ({
           </div>
 
           <div className="flex items-center gap-3 w-full sm:w-auto">
+            {isAlreadyAccepted && onClose && (
+              <button
+                type="button"
+                id="bottom-btn-close-review"
+                onClick={onClose}
+                className="w-full sm:w-auto px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold rounded-xl border border-slate-700 transition-colors cursor-pointer"
+              >
+                <span>Back to Workspace</span>
+              </button>
+            )}
+
             <button
               id="bottom-btn-accept-policy"
               type="button"
@@ -508,7 +534,7 @@ export const PolicyRulesFullScreen: React.FC<PolicyRulesFullScreenProps> = ({
               className="w-full sm:w-auto px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 disabled:bg-slate-800 disabled:text-slate-500 text-white text-xs sm:text-sm font-bold rounded-xl shadow-lg shadow-emerald-950 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <CheckCircle2 className="h-4 w-4" />
-              <span>Accept Policy Rules & Open Claim Suite</span>
+              <span>{isAlreadyAccepted ? 'Save Changes & Return to Suite' : 'Accept Policy Rules & Open Claim Suite'}</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
