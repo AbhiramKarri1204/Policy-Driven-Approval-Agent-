@@ -9,6 +9,7 @@ import { ClaimsTable } from './components/ClaimsTable';
 import { AuditTraceModal } from './components/AuditTraceModal';
 import { RulesConfigHub } from './components/RulesConfigHub';
 import { ClaimSimulator } from './components/ClaimSimulator';
+import { PolicyRulesFullScreen } from './components/PolicyRulesFullScreen';
 import { DEFAULT_STRUCTURED_RULES, SAMPLE_CLAIMS } from './data/sampleData';
 import { evaluateBatch } from './engine/decisionEngine';
 import {
@@ -27,15 +28,8 @@ export default function App() {
     }
   });
 
-  const [activeTab, setActiveTab] = useState<ActiveTab>(() => {
-    try {
-      const accepted = localStorage.getItem('corporate_policy_rules_accepted') === 'true';
-      return accepted ? 'simulator' : 'rules';
-    } catch {
-      return 'rules';
-    }
-  });
-
+  const [activeTab, setActiveTab] = useState<ActiveTab>('simulator');
+  const [isReviewingRulesFullScreen, setIsReviewingRulesFullScreen] = useState<boolean>(false);
   const [rules, setRules] = useState<StructuredRule[]>(DEFAULT_STRUCTURED_RULES);
   const [claims, setClaims] = useState<ExpenseClaim[]>(SAMPLE_CLAIMS);
   const [selectedFilter, setSelectedFilter] = useState<string>('ALL');
@@ -56,6 +50,7 @@ export default function App() {
   // Handle user acceptance of policy rules
   const handleAcceptPolicy = () => {
     setIsPolicyAccepted(true);
+    setIsReviewingRulesFullScreen(false);
     try {
       localStorage.setItem('corporate_policy_rules_accepted', 'true');
     } catch (e) {
@@ -63,7 +58,7 @@ export default function App() {
     }
     setActiveTab('simulator');
     showToast(
-      `Policy rules accepted (${rules.filter((r) => r.enabled !== false).length} active rules). Claim Simulator & Batch Evaluation unlocked!`,
+      `Policy rules accepted (${rules.filter((r) => r.enabled !== false).length} active rules). Showing Claim Simulator & Batch Evaluation.`,
       'success'
     );
   };
@@ -204,6 +199,41 @@ export default function App() {
     );
   };
 
+  // If policy is not yet accepted or user clicked to review rules in full screen, show dedicated full-screen page
+  if (!isPolicyAccepted || isReviewingRulesFullScreen) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-emerald-500/30 selection:text-emerald-200">
+        {/* Toast Notification */}
+        {toastMessage && (
+          <div className="fixed bottom-5 right-5 z-50 animate-in fade-in slide-in-from-bottom-3 duration-200">
+            <div
+              className={`px-4 py-2.5 rounded-lg shadow-xl text-xs font-medium border flex items-center gap-2 ${
+                toastMessage.type === 'success'
+                  ? 'bg-emerald-950/90 border-emerald-700 text-emerald-200'
+                  : toastMessage.type === 'error'
+                  ? 'bg-rose-950/90 border-rose-700 text-rose-200'
+                  : 'bg-slate-900/90 border-slate-700 text-slate-200'
+              }`}
+            >
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+              <span>{toastMessage.text}</span>
+            </div>
+          </div>
+        )}
+
+        <PolicyRulesFullScreen
+          rules={rules}
+          onUpdateRules={handleUpdateRules}
+          onParseNewRule={handleParseNewRule}
+          onBatchRecompile={handleBatchRecompile}
+          onResetDefaults={handleResetDefaults}
+          isCompiling={isCompiling}
+          onAcceptPolicy={handleAcceptPolicy}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-emerald-500/30 selection:text-emerald-200">
       {/* Toast Notification */}
@@ -224,7 +254,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Main App Navigation Header */}
+      {/* Main App Navigation Header (Claim Simulator & Batch Evaluation) */}
       <Header
         activeTab={activeTab}
         onTabChange={setActiveTab}
@@ -234,10 +264,10 @@ export default function App() {
         totalRules={rules.filter((r) => r.enabled !== false).length}
         totalClaims={claims.length}
         isPolicyAccepted={isPolicyAccepted}
-        onReviewRules={() => setActiveTab('rules')}
+        onReviewRules={() => setIsReviewingRulesFullScreen(true)}
       />
 
-      {/* Main Content Area - Fully responsive to whatever device the user is on */}
+      {/* Main Content Area - Strictly Claim Simulator & Batch Evaluation */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-6">
         {activeTab === 'simulator' && (
           <ClaimSimulator
@@ -271,19 +301,6 @@ export default function App() {
               onFilterChange={setSelectedFilter}
             />
           </div>
-        )}
-
-        {activeTab === 'rules' && (
-          <RulesConfigHub
-            rules={rules}
-            onUpdateRules={handleUpdateRules}
-            onParseNewRule={handleParseNewRule}
-            onBatchRecompile={handleBatchRecompile}
-            onResetDefaults={handleResetDefaults}
-            isCompiling={isCompiling}
-            onAcceptPolicy={handleAcceptPolicy}
-            isPolicyAccepted={isPolicyAccepted}
-          />
         )}
       </main>
 

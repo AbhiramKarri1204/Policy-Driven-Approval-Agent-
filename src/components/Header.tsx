@@ -100,60 +100,33 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* View Switcher Tabs (Responsive horizontal touch-scroll on mobile) */}
+        {/* View Switcher Tabs (Claim Simulator & Batch Evaluation only) */}
         <div className="flex space-x-1 border-t border-slate-800/80 -mb-px overflow-x-auto no-scrollbar py-1 scroll-smooth">
-          {isPolicyAccepted ? (
-            /* After Acceptance: ONLY Show Claim Simulator and Batch Evaluation */
-            <>
-              <button
-                id="tab-simulator-view"
-                onClick={() => onTabChange('simulator')}
-                className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2.5 min-h-[44px] text-xs font-medium border-b-2 transition-colors whitespace-nowrap cursor-pointer shrink-0 ${
-                  activeTab === 'simulator'
-                    ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5 font-semibold'
-                    : 'border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700'
-                }`}
-              >
-                <PlayCircle className="h-4 w-4 shrink-0" />
-                <span>Claim Simulator</span>
-              </button>
+          <button
+            id="tab-simulator-view"
+            onClick={() => onTabChange('simulator')}
+            className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2.5 min-h-[44px] text-xs font-medium border-b-2 transition-colors whitespace-nowrap cursor-pointer shrink-0 ${
+              activeTab === 'simulator'
+                ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5 font-semibold'
+                : 'border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700'
+            }`}
+          >
+            <PlayCircle className="h-4 w-4 shrink-0" />
+            <span>Claim Simulator</span>
+          </button>
 
-              <button
-                id="tab-batch-view"
-                onClick={() => onTabChange('batch')}
-                className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2.5 min-h-[44px] text-xs font-medium border-b-2 transition-colors whitespace-nowrap cursor-pointer shrink-0 ${
-                  activeTab === 'batch'
-                    ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5 font-semibold'
-                    : 'border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700'
-                }`}
-              >
-                <FileText className="h-4 w-4 shrink-0" />
-                <span>Batch Evaluation ({totalClaims} Claims)</span>
-              </button>
-
-              {activeTab === 'rules' && (
-                <button
-                  id="tab-rules-view"
-                  onClick={() => onTabChange('rules')}
-                  className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2.5 min-h-[44px] text-xs font-medium border-b-2 transition-colors whitespace-nowrap cursor-pointer shrink-0 border-amber-500 text-amber-400 bg-amber-500/5 font-semibold"
-                >
-                  <Sliders className="h-4 w-4 shrink-0" />
-                  <span>Reviewing Policy Rules ({totalRules})</span>
-                </button>
-              )}
-            </>
-          ) : (
-            /* Prior to Acceptance: Show Policy Rules Review Stage */
-            <div className="flex items-center justify-between w-full py-2">
-              <div className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-400">
-                <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-                <span>Step 1: Review & Accept Corporate Policy Rules</span>
-              </div>
-              <span className="text-[11px] text-slate-400">
-                Claim Simulator & Batch Evaluation will unlock upon acceptance
-              </span>
-            </div>
-          )}
+          <button
+            id="tab-batch-view"
+            onClick={() => onTabChange('batch')}
+            className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2.5 min-h-[44px] text-xs font-medium border-b-2 transition-colors whitespace-nowrap cursor-pointer shrink-0 ${
+              activeTab === 'batch'
+                ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5 font-semibold'
+                : 'border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700'
+            }`}
+          >
+            <FileText className="h-4 w-4 shrink-0" />
+            <span>Batch Evaluation ({totalClaims} Claims)</span>
+          </button>
         </div>
       </div>
     </header>
