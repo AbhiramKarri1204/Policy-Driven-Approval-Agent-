@@ -3,15 +3,12 @@ import {
   FileText,
   Sliders,
   PlayCircle,
-  BookOpen,
   Zap,
   Sparkles,
-  RefreshCw,
-  Smartphone,
-  CheckCircle2
+  RefreshCw
 } from 'lucide-react';
 
-export type ActiveTab = 'batch' | 'rules' | 'simulator' | 'docs';
+export type ActiveTab = 'batch' | 'rules' | 'simulator';
 
 interface HeaderProps {
   activeTab: ActiveTab;
@@ -124,19 +121,6 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <PlayCircle className="h-4 w-4 shrink-0" />
             <span>Claim Simulator</span>
-          </button>
-
-          <button
-            id="tab-docs-view"
-            onClick={() => onTabChange('docs')}
-            className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2.5 min-h-[44px] text-xs font-medium border-b-2 transition-colors whitespace-nowrap cursor-pointer shrink-0 ${
-              activeTab === 'docs'
-                ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5 font-semibold'
-                : 'border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700'
-            }`}
-          >
-            <BookOpen className="h-4 w-4 shrink-0" />
-            <span>Architecture Guide</span>
           </button>
         </div>
       </div>

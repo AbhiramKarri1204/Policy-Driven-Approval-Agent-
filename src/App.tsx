@@ -11,7 +11,6 @@ import { ClaimsTable } from './components/ClaimsTable';
 import { AuditTraceModal } from './components/AuditTraceModal';
 import { RulesConfigHub } from './components/RulesConfigHub';
 import { ClaimSimulator } from './components/ClaimSimulator';
-import { ArchitectureGuide } from './components/ArchitectureGuide';
 import { DEFAULT_STRUCTURED_RULES, SAMPLE_CLAIMS } from './data/sampleData';
 import { evaluateBatch } from './engine/decisionEngine';
 import {
@@ -290,10 +289,6 @@ export default function App() {
 
             {activeTab === 'simulator' && (
               <ClaimSimulator rules={rules} />
-            )}
-
-            {activeTab === 'docs' && (
-              <ArchitectureGuide />
             )}
           </main>
         </div>
