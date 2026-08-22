@@ -64,14 +64,3 @@ A Finance or HR Operations manager can update policies without developer assista
 3. **Sandbox Testing**: Test the rule immediately on synthetic scenarios in the **Claim Simulator** or click **Re-Run Batch** to view its real-time impact across all 20 claims.
 
 ---
-
-## 🎥 5-Minute Demo Video Walkthrough Guide
-
-- **[0:00 - 2:00] Architecture Split**: Explain why LLMs parse rules once at load-time and why the evaluation engine is 100% deterministic code.
-- **[2:00 - 4:00] 20-Claim Walkthrough**:
-  - Show clean approval: `CLM-102` (Sales $340 lunch under $500).
-  - Show exact boundary test: `CLM-109` ($500.00: Approved) vs `CLM-110` ($500.01: Exceeds threshold).
-  - Show travel receipt rejection: `CLM-103` (Delta flight ticket without receipt).
-  - Show conflict detection: `CLM-111` (Marketing SaaS $1,200 matching Software Auto-Approve `< $1500` AND Marketing Escalate `> $1000`).
-- **[4:00 - 5:00] Tradeoffs & Rule Editing**:
-  - Add a new plain-English rule in the UI, show live AST compile, re-run the batch, and discuss the load-time AST compilation tradeoff and visual verification mitigation.
