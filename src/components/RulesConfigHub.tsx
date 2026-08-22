@@ -16,7 +16,9 @@ import {
   Building2,
   Layers,
   ArrowUp,
-  ArrowDown
+  ArrowDown,
+  ArrowRight,
+  ShieldCheck
 } from 'lucide-react';
 import { DEFAULT_RAW_RULES } from '../data/sampleData';
 import { RuleAction, StructuredRule } from '../types';
@@ -28,6 +30,8 @@ interface RulesConfigHubProps {
   onBatchRecompile: (rawRulesText: string) => Promise<void>;
   onResetDefaults: () => void;
   isCompiling: boolean;
+  onAcceptPolicy?: () => void;
+  isPolicyAccepted?: boolean;
 }
 
 export const RulesConfigHub: React.FC<RulesConfigHubProps> = ({
@@ -36,7 +40,9 @@ export const RulesConfigHub: React.FC<RulesConfigHubProps> = ({
   onParseNewRule,
   onBatchRecompile,
   onResetDefaults,
-  isCompiling
+  isCompiling,
+  onAcceptPolicy,
+  isPolicyAccepted = false
 }) => {
   const [newRuleInput, setNewRuleInput] = useState('');
   const [rawTextMode, setRawTextMode] = useState(false);
@@ -45,6 +51,7 @@ export const RulesConfigHub: React.FC<RulesConfigHubProps> = ({
   );
   const [isAddingSingle, setIsAddingSingle] = useState(false);
   const [selectedRuleForJson, setSelectedRuleForJson] = useState<StructuredRule | null>(null);
+  const [hasAcknowledgedReview, setHasAcknowledgedReview] = useState<boolean>(isPolicyAccepted);
 
   // Quick preset rule templates that users can click to insert
   const presetTemplates = [
@@ -118,50 +125,81 @@ export const RulesConfigHub: React.FC<RulesConfigHubProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Top Banner: Core Design Principle Explanation */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <div className="h-10 w-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
-              <Sparkles className="h-5 w-5" />
+      {/* Top Banner: Policy Review & Acceptance Callout */}
+      <div className={`border rounded-xl p-5 shadow-lg transition-all ${
+        isPolicyAccepted
+          ? 'bg-slate-900 border-slate-800'
+          : 'bg-gradient-to-r from-emerald-950/70 via-slate-900 to-slate-900 border-emerald-500/50 ring-1 ring-emerald-500/30'
+      }`}>
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div className="flex items-start gap-3.5">
+            <div className={`h-11 w-11 rounded-xl flex items-center justify-center shrink-0 border ${
+              isPolicyAccepted
+                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+                : 'bg-emerald-500/20 border-emerald-400 text-emerald-300'
+            }`}>
+              <ShieldCheck className="h-6 w-6" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white tracking-tight">
-                Policy Rules Configuration (Rules as Config)
-              </h2>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-base font-bold text-white tracking-tight">
+                  {isPolicyAccepted
+                    ? 'Corporate Policy Rules Store (Active & Verified)'
+                    : 'Step 1: Review & Accept Corporate Expense Policies'}
+                </h2>
+                <span className={`px-2 py-0.5 rounded text-[11px] font-semibold border ${
+                  isPolicyAccepted
+                    ? 'bg-emerald-950 text-emerald-300 border-emerald-700'
+                    : 'bg-amber-950 text-amber-300 border-amber-700 animate-pulse'
+                }`}>
+                  {isPolicyAccepted ? 'Accepted & Active' : 'Acceptance Required'}
+                </span>
+              </div>
               <p className="text-xs text-slate-400 mt-1 max-w-3xl leading-relaxed">
-                Rules are authored in plain English and compiled <strong>once at load-time</strong> into structured
-                intermediate AST objects. The decision engine evaluates claims deterministically against these AST
-                objects with sub-millisecond latency.
+                Review all {rules.filter(r => r.enabled !== false).length} deterministic rules below (spending limits, receipt gates, department allowances).
+                {!isPolicyAccepted && ' After accepting, you will proceed directly to the Claim Simulator and Batch Evaluation.'}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            {onAcceptPolicy && (
+              <button
+                id="btn-accept-policy-top"
+                type="button"
+                onClick={onAcceptPolicy}
+                className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white text-xs font-bold rounded-lg shadow-md transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <CheckCircle2 className="h-4 w-4" />
+                <span>{isPolicyAccepted ? 'Save & Return to Simulator' : 'Accept Policy Rules & Proceed'}</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </button>
+            )}
+
             <button
               id="btn-switch-text-mode"
               onClick={() => {
                 setRawRulesText(rules.map((r) => r.rawText).join('\n'));
                 setRawTextMode(!rawTextMode);
               }}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium border transition-colors cursor-pointer flex items-center gap-1.5 ${
+              className={`px-3 py-2 rounded-lg text-xs font-medium border transition-colors cursor-pointer flex items-center gap-1.5 ${
                 rawTextMode
                   ? 'bg-emerald-950 border-emerald-700 text-emerald-300'
                   : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-750'
               }`}
             >
               {rawTextMode ? <Sliders className="h-3.5 w-3.5" /> : <FileText className="h-3.5 w-3.5" />}
-              <span>{rawTextMode ? 'Visual Rule Cards' : 'Raw rules.txt Editor'}</span>
+              <span>{rawTextMode ? 'Visual Cards' : 'rules.txt Editor'}</span>
             </button>
 
             <button
               id="btn-reset-rules"
               onClick={onResetDefaults}
-              className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-medium rounded-md transition-colors cursor-pointer flex items-center gap-1"
+              className="px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-medium rounded-lg transition-colors cursor-pointer flex items-center gap-1"
               title="Reset to initial 8 benchmark rules"
             >
               <RotateCcw className="h-3.5 w-3.5" />
-              <span>Reset Defaults</span>
+              <span>Reset</span>
             </button>
           </div>
         </div>
@@ -443,6 +481,38 @@ export const RulesConfigHub: React.FC<RulesConfigHubProps> = ({
               })}
             </div>
           </div>
+
+          {/* Bottom Acceptance Card */}
+          {onAcceptPolicy && (
+            <div className="bg-slate-900 border border-emerald-500/40 rounded-xl p-5 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4 bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/40">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
+                  <ShieldCheck className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-white">
+                    {isPolicyAccepted ? 'Corporate Policy Rules Active' : 'Ready to begin evaluating claims?'}
+                  </h4>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    {isPolicyAccepted
+                      ? `All ${rules.length} policy rules are loaded. Proceed to test new claims or view the batch evaluation.`
+                      : `Accept the ${rules.length} rules above to unlock the Claim Simulator and Batch Evaluation.`}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                id="btn-accept-policy-bottom"
+                type="button"
+                onClick={onAcceptPolicy}
+                className="w-full sm:w-auto px-5 py-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white text-xs font-bold rounded-lg shadow-lg shadow-emerald-950 transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
+              >
+                <CheckCircle2 className="h-4 w-4" />
+                <span>{isPolicyAccepted ? 'Return to Claim Simulator' : 'Accept All Rules & Open Simulator'}</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          )}
         </div>
       )}
 

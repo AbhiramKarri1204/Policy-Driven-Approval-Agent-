@@ -19,7 +19,23 @@ import {
 import { parseRuleHeuristically } from './utils/heuristicParser';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('simulator');
+  const [isPolicyAccepted, setIsPolicyAccepted] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('corporate_policy_rules_accepted') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const [activeTab, setActiveTab] = useState<ActiveTab>(() => {
+    try {
+      const accepted = localStorage.getItem('corporate_policy_rules_accepted') === 'true';
+      return accepted ? 'simulator' : 'rules';
+    } catch {
+      return 'rules';
+    }
+  });
+
   const [rules, setRules] = useState<StructuredRule[]>(DEFAULT_STRUCTURED_RULES);
   const [claims, setClaims] = useState<ExpenseClaim[]>(SAMPLE_CLAIMS);
   const [selectedFilter, setSelectedFilter] = useState<string>('ALL');
@@ -35,6 +51,21 @@ export default function App() {
     setTimeout(() => {
       setToastMessage(null);
     }, 4000);
+  };
+
+  // Handle user acceptance of policy rules
+  const handleAcceptPolicy = () => {
+    setIsPolicyAccepted(true);
+    try {
+      localStorage.setItem('corporate_policy_rules_accepted', 'true');
+    } catch (e) {
+      console.warn('Could not persist policy acceptance to localStorage', e);
+    }
+    setActiveTab('simulator');
+    showToast(
+      `Policy rules accepted (${rules.filter((r) => r.enabled !== false).length} active rules). Claim Simulator & Batch Evaluation unlocked!`,
+      'success'
+    );
   };
 
   // Check health and Gemini key availability on mount
@@ -202,6 +233,8 @@ export default function App() {
         hasGeminiKey={hasGeminiKey}
         totalRules={rules.filter((r) => r.enabled !== false).length}
         totalClaims={claims.length}
+        isPolicyAccepted={isPolicyAccepted}
+        onReviewRules={() => setActiveTab('rules')}
       />
 
       {/* Main Content Area - Fully responsive to whatever device the user is on */}
@@ -248,6 +281,8 @@ export default function App() {
             onBatchRecompile={handleBatchRecompile}
             onResetDefaults={handleResetDefaults}
             isCompiling={isCompiling}
+            onAcceptPolicy={handleAcceptPolicy}
+            isPolicyAccepted={isPolicyAccepted}
           />
         )}
       </main>
