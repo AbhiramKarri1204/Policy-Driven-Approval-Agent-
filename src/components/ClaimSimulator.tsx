@@ -5,23 +5,27 @@ import {
   CheckCircle2,
   XCircle,
   AlertTriangle,
-  Building2,
-  Tag,
-  Receipt,
   RotateCcw,
-  Sparkles,
   ShieldAlert,
-  HelpCircle,
-  Code
+  Code,
+  FileText,
+  ArrowRight,
+  PlusCircle
 } from 'lucide-react';
 import { evaluateClaim } from '../engine/decisionEngine';
 import { EvaluationResult, ExpenseClaim, StructuredRule } from '../types';
 
 interface ClaimSimulatorProps {
   rules: StructuredRule[];
+  onAddAndEvaluateInBatch?: (claim: ExpenseClaim) => void;
+  onNavigateToBatch?: () => void;
 }
 
-export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({ rules }) => {
+export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
+  rules,
+  onAddAndEvaluateInBatch,
+  onNavigateToBatch
+}) => {
   const defaultSimClaim: ExpenseClaim = {
     id: 'SIM-TEST-001',
     employeeName: 'Jordan Reed',
@@ -311,6 +315,38 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({ rules }) => {
               />
             </div>
           </div>
+
+          {/* Action Buttons: Proceed to Batch Evaluation */}
+          <div className="pt-3 border-t border-slate-800 space-y-2">
+            <button
+              id="simulator-add-to-batch-btn"
+              type="button"
+              onClick={() => {
+                if (onAddAndEvaluateInBatch) {
+                  onAddAndEvaluateInBatch(claim);
+                } else if (onNavigateToBatch) {
+                  onNavigateToBatch();
+                }
+              }}
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-semibold text-xs rounded-lg shadow-md transition-all cursor-pointer"
+            >
+              <PlusCircle className="h-4 w-4" />
+              <span>Add Claim & Show Batch Evaluation</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </button>
+
+            {onNavigateToBatch && (
+              <button
+                id="simulator-view-batch-btn"
+                type="button"
+                onClick={onNavigateToBatch}
+                className="w-full flex items-center justify-center gap-1.5 py-2 px-3 bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white font-medium text-xs rounded-lg border border-slate-700 transition-colors cursor-pointer"
+              >
+                <FileText className="h-3.5 w-3.5 text-slate-400" />
+                <span>View Full Batch Evaluation Dashboard</span>
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Right Panel: Real-time Evaluation Results & Trace (7 Cols) */}
@@ -356,6 +392,26 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({ rules }) => {
                 <div className="bg-slate-950/80 border border-slate-800 rounded-lg p-3.5 text-xs text-slate-200 leading-relaxed font-sans">
                   <strong className="text-slate-100">Traceable Rationale: </strong>
                   {evaluation.rationale}
+                </div>
+
+                <div className="mt-3 pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-[11px] text-slate-400">
+                    Live deterministic verification completed
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (onAddAndEvaluateInBatch) {
+                        onAddAndEvaluateInBatch(claim);
+                      } else if (onNavigateToBatch) {
+                        onNavigateToBatch();
+                      }
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600/90 hover:bg-emerald-500 text-white font-semibold text-xs rounded-md shadow transition-colors cursor-pointer"
+                  >
+                    <span>View in Batch Evaluation</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </button>
                 </div>
               </div>
 

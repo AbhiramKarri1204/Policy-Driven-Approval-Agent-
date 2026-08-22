@@ -8,7 +8,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 
-export type ActiveTab = 'batch' | 'rules' | 'simulator';
+export type ActiveTab = 'simulator' | 'batch' | 'rules';
 
 interface HeaderProps {
   activeTab: ActiveTab;
@@ -17,6 +17,7 @@ interface HeaderProps {
   isEvaluating: boolean;
   hasGeminiKey: boolean;
   totalRules: number;
+  totalClaims?: number;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -25,7 +26,8 @@ export const Header: React.FC<HeaderProps> = ({
   onReRunBatch,
   isEvaluating,
   hasGeminiKey,
-  totalRules
+  totalRules,
+  totalClaims = 20
 }) => {
   return (
     <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 shadow-sm">
@@ -85,6 +87,19 @@ export const Header: React.FC<HeaderProps> = ({
         {/* View Switcher Tabs (Responsive horizontal touch-scroll on mobile) */}
         <div className="flex space-x-1 border-t border-slate-800/80 -mb-px overflow-x-auto no-scrollbar py-1 scroll-smooth">
           <button
+            id="tab-simulator-view"
+            onClick={() => onTabChange('simulator')}
+            className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2.5 min-h-[44px] text-xs font-medium border-b-2 transition-colors whitespace-nowrap cursor-pointer shrink-0 ${
+              activeTab === 'simulator'
+                ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5 font-semibold'
+                : 'border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700'
+            }`}
+          >
+            <PlayCircle className="h-4 w-4 shrink-0" />
+            <span>Claim Simulator</span>
+          </button>
+
+          <button
             id="tab-batch-view"
             onClick={() => onTabChange('batch')}
             className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2.5 min-h-[44px] text-xs font-medium border-b-2 transition-colors whitespace-nowrap cursor-pointer shrink-0 ${
@@ -94,7 +109,7 @@ export const Header: React.FC<HeaderProps> = ({
             }`}
           >
             <FileText className="h-4 w-4 shrink-0" />
-            <span>Batch Evaluation (20 Claims)</span>
+            <span>Batch Evaluation ({totalClaims} Claims)</span>
           </button>
 
           <button
@@ -108,19 +123,6 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <Sliders className="h-4 w-4 shrink-0" />
             <span>Policy Rules ({totalRules})</span>
-          </button>
-
-          <button
-            id="tab-simulator-view"
-            onClick={() => onTabChange('simulator')}
-            className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2.5 min-h-[44px] text-xs font-medium border-b-2 transition-colors whitespace-nowrap cursor-pointer shrink-0 ${
-              activeTab === 'simulator'
-                ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5 font-semibold'
-                : 'border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700'
-            }`}
-          >
-            <PlayCircle className="h-4 w-4 shrink-0" />
-            <span>Claim Simulator</span>
           </button>
         </div>
       </div>

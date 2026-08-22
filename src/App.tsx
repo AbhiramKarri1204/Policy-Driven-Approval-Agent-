@@ -19,7 +19,7 @@ import {
 import { parseRuleHeuristically } from './utils/heuristicParser';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('batch');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('simulator');
   const [rules, setRules] = useState<StructuredRule[]>(DEFAULT_STRUCTURED_RULES);
   const [claims, setClaims] = useState<ExpenseClaim[]>(SAMPLE_CLAIMS);
   const [selectedFilter, setSelectedFilter] = useState<string>('ALL');
@@ -153,6 +153,26 @@ export default function App() {
     showToast('Reset policy rules and sample claims to initial benchmark dataset', 'info');
   };
 
+  // Handle adding simulated claim to the batch and automatically navigating to Batch Evaluation
+  const handleAddToBatchAndEvaluate = (newClaim: ExpenseClaim) => {
+    setClaims((prev) => {
+      const existsIndex = prev.findIndex((c) => c.id === newClaim.id);
+      if (existsIndex >= 0) {
+        const updated = [...prev];
+        updated[existsIndex] = newClaim;
+        return updated;
+      } else {
+        return [newClaim, ...prev];
+      }
+    });
+
+    setActiveTab('batch');
+    showToast(
+      `Claim ${newClaim.id} ($${newClaim.amount.toFixed(2)}) submitted. Showing updated batch evaluation.`,
+      'success'
+    );
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-emerald-500/30 selection:text-emerald-200">
       {/* Toast Notification */}
@@ -181,10 +201,19 @@ export default function App() {
         isEvaluating={isEvaluating}
         hasGeminiKey={hasGeminiKey}
         totalRules={rules.filter((r) => r.enabled !== false).length}
+        totalClaims={claims.length}
       />
 
       {/* Main Content Area - Fully responsive to whatever device the user is on */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-6">
+        {activeTab === 'simulator' && (
+          <ClaimSimulator
+            rules={rules}
+            onAddAndEvaluateInBatch={handleAddToBatchAndEvaluate}
+            onNavigateToBatch={() => setActiveTab('batch')}
+          />
+        )}
+
         {activeTab === 'batch' && (
           <div className="space-y-5 sm:space-y-6">
             {/* Metric Summary Telemetry */}
@@ -220,10 +249,6 @@ export default function App() {
             onResetDefaults={handleResetDefaults}
             isCompiling={isCompiling}
           />
-        )}
-
-        {activeTab === 'simulator' && (
-          <ClaimSimulator rules={rules} />
         )}
       </main>
 
