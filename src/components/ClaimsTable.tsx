@@ -103,22 +103,22 @@ export const ClaimsTable: React.FC<ClaimsTableProps> = ({
     switch (decision) {
       case 'APPROVE':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-xs">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-900 border border-emerald-200 shadow-xs">
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-800 shrink-0" />
             <span>APPROVED</span>
           </span>
         );
       case 'REJECT':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 shadow-xs">
-            <XCircle className="h-3.5 w-3.5 text-rose-600 shrink-0" />
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-900 border border-rose-200 shadow-xs">
+            <XCircle className="h-3.5 w-3.5 text-rose-800 shrink-0" />
             <span>REJECTED</span>
           </span>
         );
       case 'ESCALATE':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200 shadow-xs">
-            <AlertTriangle className="h-3.5 w-3.5 text-amber-600 shrink-0" />
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-900 border border-amber-200 shadow-xs">
+            <AlertTriangle className="h-3.5 w-3.5 text-amber-700 shrink-0" />
             <span>ESCALATED</span>
           </span>
         );
@@ -145,10 +145,10 @@ export const ClaimsTable: React.FC<ClaimsTableProps> = ({
           <button
             id="filter-pill-approve"
             onClick={() => onFilterChange('APPROVE')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               selectedFilter === 'APPROVE'
-                ? 'bg-emerald-600 text-white shadow-xs'
-                : 'bg-white text-emerald-700 hover:bg-emerald-50 border border-slate-200'
+                ? 'bg-emerald-700 text-white shadow-xs'
+                : 'bg-white text-emerald-900 hover:bg-emerald-50 border border-slate-200'
             }`}
           >
             Approved ({results.filter((r) => r.decision === 'APPROVE').length})
@@ -156,10 +156,10 @@ export const ClaimsTable: React.FC<ClaimsTableProps> = ({
           <button
             id="filter-pill-reject"
             onClick={() => onFilterChange('REJECT')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               selectedFilter === 'REJECT'
-                ? 'bg-rose-600 text-white shadow-xs'
-                : 'bg-white text-rose-700 hover:bg-rose-50 border border-slate-200'
+                ? 'bg-rose-700 text-white shadow-xs'
+                : 'bg-white text-rose-900 hover:bg-rose-50 border border-slate-200'
             }`}
           >
             Rejected ({results.filter((r) => r.decision === 'REJECT').length})
@@ -296,11 +296,11 @@ export const ClaimsTable: React.FC<ClaimsTableProps> = ({
                     </div>
                     <div className="text-xs mt-0.5">
                       {claim.hasReceipt === true ? (
-                        <span className="text-emerald-700 font-semibold">Receipt OK</span>
+                        <span className="text-emerald-900 font-bold">Receipt OK</span>
                       ) : claim.hasReceipt === false ? (
-                        <span className="text-rose-700 font-semibold">No Receipt</span>
+                        <span className="text-rose-900 font-bold">No Receipt</span>
                       ) : (
-                        <span className="text-amber-700 font-semibold">Unspecified</span>
+                        <span className="text-amber-900 font-bold">Unspecified</span>
                       )}
                     </div>
                   </div>
@@ -454,21 +454,21 @@ export const ClaimsTable: React.FC<ClaimsTableProps> = ({
                       </div>
                       <div className="flex items-center gap-1 mt-0.5">
                         {claim.hasReceipt === true ? (
-                          <span className="inline-flex items-center gap-1 text-[11px] text-emerald-700 font-semibold">
-                            <Receipt className="h-3 w-3" />
+                          <span className="inline-flex items-center gap-1 text-[11px] text-emerald-900 font-bold">
+                            <Receipt className="h-3 w-3 text-emerald-800" />
                             <span>Receipt OK</span>
                             {claim.receiptFileName && (
-                              <span className="px-1.5 py-0.2 rounded bg-emerald-50 text-[10px] text-emerald-800 border border-emerald-200" title={claim.receiptFileName}>
+                              <span className="px-1.5 py-0.2 rounded bg-emerald-50 text-[10px] text-emerald-950 font-bold border border-emerald-200" title={claim.receiptFileName}>
                                 Uploaded
                               </span>
                             )}
                           </span>
                         ) : claim.hasReceipt === false ? (
-                          <span className="inline-flex items-center gap-1 text-[11px] text-rose-700 font-semibold">
-                            <Receipt className="h-3 w-3" /> No Receipt
+                          <span className="inline-flex items-center gap-1 text-[11px] text-rose-900 font-bold">
+                            <Receipt className="h-3 w-3 text-rose-800" /> No Receipt
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-[11px] text-amber-800 font-semibold bg-amber-50 px-1.5 rounded border border-amber-200">
+                          <span className="inline-flex items-center gap-1 text-[11px] text-amber-900 font-bold bg-amber-50 px-1.5 rounded border border-amber-200">
                             Unspecified
                           </span>
                         )}

@@ -48,7 +48,7 @@ export const ClaimsDistributionChart: React.FC<ClaimsDistributionChartProps> = (
       activeColor: '#059669', // emerald-600
       filterKey: 'APPROVE',
       icon: CheckCircle2,
-      textColor: 'text-emerald-700',
+      textColor: 'text-emerald-900',
       badgeBg: 'bg-emerald-50',
       borderColor: 'border-emerald-300'
     },
@@ -59,7 +59,7 @@ export const ClaimsDistributionChart: React.FC<ClaimsDistributionChartProps> = (
       activeColor: '#e11d48', // rose-600
       filterKey: 'REJECT',
       icon: XCircle,
-      textColor: 'text-rose-700',
+      textColor: 'text-rose-900',
       badgeBg: 'bg-rose-50',
       borderColor: 'border-rose-300'
     },
@@ -70,7 +70,7 @@ export const ClaimsDistributionChart: React.FC<ClaimsDistributionChartProps> = (
       activeColor: '#d97706', // amber-600
       filterKey: 'ESCALATE',
       icon: AlertTriangle,
-      textColor: 'text-amber-800',
+      textColor: 'text-amber-900',
       badgeBg: 'bg-amber-50',
       borderColor: 'border-amber-300'
     }

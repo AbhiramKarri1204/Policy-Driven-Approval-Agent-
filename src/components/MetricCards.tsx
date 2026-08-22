@@ -67,14 +67,14 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
             : 'border-slate-200 hover:border-slate-300 shadow-xs'
         }`}
       >
-        <div className="flex items-center justify-between text-xs text-emerald-700 mb-1">
-          <span className="font-semibold">Auto-Approved</span>
-          <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+        <div className="flex items-center justify-between text-xs text-emerald-900 mb-1">
+          <span className="font-bold">Auto-Approved</span>
+          <CheckCircle2 className="h-4 w-4 text-emerald-800" />
         </div>
-        <div className="text-2xl font-bold text-emerald-700 tracking-tight font-mono">
+        <div className="text-2xl font-bold text-emerald-900 tracking-tight font-mono">
           {stats.approvedCount}
         </div>
-        <div className="text-xs text-emerald-600 mt-1">
+        <div className="text-xs text-emerald-800 font-medium mt-1">
           {approvedPct}% auto-passed
         </div>
       </div>
@@ -89,14 +89,14 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
             : 'border-slate-200 hover:border-slate-300 shadow-xs'
         }`}
       >
-        <div className="flex items-center justify-between text-xs text-rose-700 mb-1">
-          <span className="font-semibold">Auto-Rejected</span>
-          <XCircle className="h-4 w-4 text-rose-600" />
+        <div className="flex items-center justify-between text-xs text-rose-900 mb-1">
+          <span className="font-bold">Auto-Rejected</span>
+          <XCircle className="h-4 w-4 text-rose-800" />
         </div>
-        <div className="text-2xl font-bold text-rose-700 tracking-tight font-mono">
+        <div className="text-2xl font-bold text-rose-900 tracking-tight font-mono">
           {stats.rejectedCount}
         </div>
-        <div className="text-xs text-rose-600 mt-1">
+        <div className="text-xs text-rose-800 font-medium mt-1">
           {rejectedPct}% violations
         </div>
       </div>

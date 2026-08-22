@@ -127,13 +127,13 @@ export const PolicyRulesFullScreen: React.FC<PolicyRulesFullScreenProps> = ({
   const getActionBadge = (action: RuleAction) => {
     switch (action) {
       case 'APPROVE':
-        return 'bg-emerald-50 text-emerald-800 border-emerald-200';
+        return 'bg-emerald-50 text-emerald-950 font-bold border-emerald-200';
       case 'REJECT':
-        return 'bg-rose-50 text-rose-800 border-rose-200';
+        return 'bg-rose-50 text-rose-950 font-bold border-rose-200';
       case 'ESCALATE':
-        return 'bg-amber-50 text-amber-800 border-amber-200';
+        return 'bg-amber-50 text-amber-950 font-bold border-amber-200';
       default:
-        return 'bg-slate-100 text-slate-700 border-slate-200';
+        return 'bg-slate-100 text-slate-800 font-bold border-slate-200';
     }
   };
 
@@ -470,7 +470,7 @@ export const PolicyRulesFullScreen: React.FC<PolicyRulesFullScreenProps> = ({
                             onClick={() => handleToggleRule(rule.id)}
                             className={`px-3 py-1 text-xs font-bold rounded-lg border transition-colors cursor-pointer ${
                               isEnabled
-                                ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100'
+                                ? 'bg-emerald-50 text-emerald-950 border-emerald-300 hover:bg-emerald-100'
                                 : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200'
                             }`}
                           >
@@ -480,7 +480,7 @@ export const PolicyRulesFullScreen: React.FC<PolicyRulesFullScreenProps> = ({
                           <button
                             type="button"
                             onClick={() => handleDeleteRule(rule.id)}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-800 hover:bg-rose-50 transition-colors"
                             title="Delete Rule"
                           >
                             <Trash2 className="h-4 w-4" />

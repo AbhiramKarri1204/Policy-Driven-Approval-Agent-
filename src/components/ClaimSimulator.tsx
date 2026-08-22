@@ -300,7 +300,7 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
                   onClick={() => setClaim({ ...claim, hasReceipt: true })}
                   className={`py-2 text-xs font-bold rounded-lg border transition-all cursor-pointer ${
                     claim.hasReceipt === true
-                      ? 'bg-emerald-50 border-emerald-300 text-emerald-800 shadow-xs'
+                      ? 'bg-emerald-50 border-emerald-300 text-emerald-950 shadow-xs'
                       : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
@@ -320,7 +320,7 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
                   }
                   className={`py-2 text-xs font-bold rounded-lg border transition-all cursor-pointer ${
                     claim.hasReceipt === false
-                      ? 'bg-rose-50 border-rose-300 text-rose-800 shadow-xs'
+                      ? 'bg-rose-50 border-rose-300 text-rose-950 shadow-xs'
                       : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
@@ -340,7 +340,7 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
                   }
                   className={`py-2 text-xs font-bold rounded-lg border transition-all cursor-pointer ${
                     claim.hasReceipt === null
-                      ? 'bg-amber-50 border-amber-300 text-amber-800 shadow-xs'
+                      ? 'bg-amber-50 border-amber-300 text-amber-950 shadow-xs'
                       : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
@@ -424,19 +424,19 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
                 <div className="flex items-center justify-between mb-3.5">
                   <div className="flex items-center gap-2.5">
                     {evaluation.decision === 'APPROVE' ? (
-                      <CheckCircle2 className="h-6 w-6 text-emerald-600" />
+                      <CheckCircle2 className="h-6 w-6 text-emerald-800" />
                     ) : evaluation.decision === 'REJECT' ? (
-                      <XCircle className="h-6 w-6 text-rose-600" />
+                      <XCircle className="h-6 w-6 text-rose-800" />
                     ) : (
-                      <AlertTriangle className="h-6 w-6 text-amber-600" />
+                      <AlertTriangle className="h-6 w-6 text-amber-700" />
                     )}
                     <div>
-                      <div className={`text-base font-bold uppercase tracking-wide ${
+                      <div className={`text-base font-extrabold uppercase tracking-wide ${
                         evaluation.decision === 'APPROVE'
-                          ? 'text-emerald-800'
+                          ? 'text-emerald-950'
                           : evaluation.decision === 'REJECT'
-                          ? 'text-rose-800'
-                          : 'text-amber-800'
+                          ? 'text-rose-950'
+                          : 'text-amber-950'
                       }`}>
                         Decision: {evaluation.decision}
                       </div>
@@ -527,7 +527,7 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
                           <span
                             className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${
                               isFired
-                                ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                                ? 'bg-emerald-50 text-emerald-950 border border-emerald-200'
                                 : 'bg-slate-100 text-slate-500'
                             }`}
                           >
@@ -542,7 +542,7 @@ export const ClaimSimulator: React.FC<ClaimSimulatorProps> = ({
                                 <span className="text-slate-600">
                                   {c.field} {c.operator} {JSON.stringify(c.expectedValue)} (actual: {JSON.stringify(c.actualValue)})
                                 </span>
-                                <span className={c.passed ? 'text-emerald-700 font-bold' : 'text-rose-700 font-bold'}>
+                                <span className={c.passed ? 'text-emerald-900 font-extrabold' : 'text-rose-900 font-extrabold'}>
                                   {c.passed ? 'PASS' : 'FAIL'}
                                 </span>
                               </div>

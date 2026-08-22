@@ -302,7 +302,7 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
         <div className="bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs space-y-2.5">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="h-9 w-9 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0">
+              <div className="h-9 w-9 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-800 shrink-0">
                 {claim.receiptPreviewUrl ? (
                   <FileImage className="h-4 w-4" />
                 ) : (
@@ -312,14 +312,14 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
               <div className="min-w-0">
                 <div className="text-xs font-bold text-slate-900 truncate flex items-center gap-1.5">
                   <span>{fileName}</span>
-                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-950 border border-emerald-200 shrink-0">
                     VERIFIED
                   </span>
                 </div>
                 <div className="text-xs text-slate-500 flex items-center gap-2 mt-0.5">
                   <span>{formatFileSize(claim.receiptFileSize)}</span>
                   <span>•</span>
-                  <span className="text-emerald-700 font-medium">Auto-Attached to Claim</span>
+                  <span className="text-emerald-900 font-bold">Auto-Attached to Claim</span>
                 </div>
               </div>
             </div>
@@ -346,7 +346,7 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
               <button
                 type="button"
                 onClick={onReceiptRemoved}
-                className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors cursor-pointer"
+                className="p-1.5 text-slate-400 hover:text-rose-800 hover:bg-rose-50 rounded transition-colors cursor-pointer"
                 title="Remove Receipt"
               >
                 <X className="h-4 w-4" />
@@ -357,7 +357,7 @@ export const ReceiptUploadZone: React.FC<ReceiptUploadZoneProps> = ({
           {/* Micro confirmation details */}
           <div className="bg-slate-50 rounded-lg p-2 text-xs text-slate-700 border border-slate-200 flex items-center justify-between gap-2">
             <span className="text-slate-500">Attached to claim:</span>
-            <span className="font-mono text-emerald-800 font-semibold">{claim.merchant} (${claim.amount.toFixed(2)})</span>
+            <span className="font-mono text-emerald-950 font-bold">{claim.merchant} (${claim.amount.toFixed(2)})</span>
           </div>
         </div>
       ) : (
